@@ -165,7 +165,7 @@ THREE.ShaderExtras = {
 		uniforms: {
 
 			tDiffuse:   { type: "t", value: 0, texture: null },
-			time: 	    { type: "f", value: 0.0 },
+			time: 		{ type: "f", value: 0.0 },
 			nIntensity: { type: "f", value: 0.5 },
 			sIntensity: { type: "f", value: 0.05 },
 			sCount: 	{ type: "f", value: 4096 },
@@ -254,7 +254,7 @@ THREE.ShaderExtras = {
 
 	uniforms: { tColor:   { type: "t", value: 0, texture: null },
 				tDepth:   { type: "t", value: 1, texture: null },
-				focus:    { type: "f", value: 1.0 },
+				focus:	{ type: "f", value: 1.0 },
 				aspect:   { type: "f", value: 1.0 },
 				aperture: { type: "f", value: 0.025 },
 				maxblur:  { type: "f", value: 1.0 },
@@ -368,7 +368,7 @@ THREE.ShaderExtras = {
 
 			tColor:   { type: "t", value: 0, texture: null },
 			tDepth:   { type: "t", value: 1, texture: null },
-			focus:    { type: "f", value: 1.0 },
+			focus:	{ type: "f", value: 1.0 },
 			maxblur:  { type: "f", value: 1.0 }
 
 		},
@@ -477,7 +477,7 @@ THREE.ShaderExtras = {
 		uniforms: {
 
 			tDiffuse: { type: "t", value: 0, texture: null },
-			tSize:    { type: "v2", value: new THREE.Vector2( 256, 256 ) },
+			tSize:	{ type: "v2", value: new THREE.Vector2( 256, 256 ) },
 			center:   { type: "v2", value: new THREE.Vector2( 0.5, 0.5 ) },
 			angle:	  { type: "f", value: 1.57 },
 			scale:	  { type: "f", value: 1.0 }
@@ -1180,7 +1180,7 @@ THREE.ShaderExtras = {
 
 			"#define FXAA_REDUCE_MIN   (1.0/128.0)",
 			"#define FXAA_REDUCE_MUL   (1.0/8.0)",
-			"#define FXAA_SPAN_MAX     8.0",
+			"#define FXAA_SPAN_MAX	 8.0",
 
 			"void main() {",
 
@@ -1647,7 +1647,7 @@ THREE.ShaderExtras = {
 		uniforms: {
 
 			tDiffuse: { type: "t", value: 0, texture: null },
-			color:    { type: "c", value: new THREE.Color( 0xffffff ) }
+			color:	{ type: "c", value: new THREE.Color( 0xffffff ) }
 
 		},
 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Interactive Globe: Small Arms Imports &amp; Exports</title>
+		<title>Interactive Globe: ATTACK LOG</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="style.css">
@@ -11,7 +11,7 @@
 	<body onload="start()" id="dataviz" class="">
 		<div id="wrapper">
 		<div id="loading">
-			<h2>Loading Small Arms and Ammunition Trade Data from 1992 to 2010. Please wait...</h2>
+			<h2>Loading Attack Data. Please wait...</h2>
 		</div>
 
 		<div >
@@ -37,8 +37,8 @@
 		<script src="js/THREEx.WindowResize.js"></script>
 		<script src="js/Stats.js"></script>
 		<script src="js/jquery-1.7.1.min.js"></script>
-    	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
-    	<script src="js/RequestAnimationFrame.js"></script>
+		<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script src="js/RequestAnimationFrame.js"></script>
 		<script src="js/ShaderExtras.js"></script>
 		<script src="js/canvg.js"></script>
 		<script src="js/rgbcolor.js"></script>
@@ -132,95 +132,85 @@
   			_gaq.push(['_setDomainName', 'chromeexperiments.com']);
   			_gaq.push(['_trackPageview']);
 			  (function() {
-			    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			  })();
 		</script>
 
 
 		<!-- All other hud can go here-->
-        <div id="hudHeader" class="overlayCountries noPointer">
-            <h1 class="noPointer">Small Arms and Ammunition — Imports & Exports
-                <div class="subtitle">An interactive visualization of government-authorized small arms and ammunition transfers from 1992 to 2010. </div>
-			</h1>
-        </div>
+		<div id="hudHeader" class="overlayCountries noPointer">
+			<!--<h1 class="noPointer">Small Arms and Ammunition — Downloads & Uploads-->
+				<!--<div class="subtitle">An interactive visualization of government-authorized small attacks and ammunition transfers from 1992 to 2010. </div>-->
+			<!--</h1>-->
+		</div>
 
 		<div class="overlayCountries noPointer" id="hudButtons">
-            <input type="button" value="SEARCH" class="searchBtn armsBtn pointer">
-            <input type="text" name="country" class="countryTextInput pointer noMapDrag" value="UNITED STATES">
-            <input type="button" value="—" class="zoomBtn zoomOutBtn armsBtn pointer noMapDrag">
-            <input type="button" value="+" class="zoomBtn zoomInBtn armsBtn pointer noMapDrag">
-            <input type="button" value="ABOUT" class="aboutBtn armsBtn pointer"><br class="clear" />
-        </div>
-        <div id="history" class="overlayCountries noPointer">
-            <div class="graph">
-                <div class="close"></div>
-                <div class="labels">
-                    <div class="change">RELATIVE PERCENT CHANGE</div>
-                    <div class="exports">EXPORTS</div>
-                    <div class="imports">IMPORTS</div><br class="clear" />
-                </div>
-                <div class="container noPointer"></div>
-            </div>
-            <ul class="timeline pointer">
-                <li>1992</li>
-                <li>93</li>
-                <li>94</li>
-                <li>95</li>
-                <li>96</li>
-                <li>97</li>
-                <li>98</li>
-                <li>99</li>
-                <li>2000</li>
-                <li>01</li>
-                <li>02</li>
-                <li>03</li>
-                <li>04</li>
-                <li>05</li>
-                <li>06</li>
-                <li>07</li>
-                <li>08</li>
-                <li>09</li>
-                <li>2010</li>
-                <div id="handle" class="noMapDrag"></div>
-            </ul>
-        </div>
-        <div id="graphIcon" class="overlayCountries"></div>
-        <div id="importExportBtns" class="overlayCountries">
-            <div class="typeLabels">
-                <div class="mil">Military</div>
-                <div class="civ">Civilian</div>
-                <div class="ammo">Ammo</div><br class="clear">
-            </div>
-            <div class="imports imex">
-                <div class="mil"><div class="check"></div></div>
-                <div class="civ"><div class="check"></div></div>
-                <div class="ammo"><div class="check"></div></div>
-                <div class="label">Imports</div><br class="clear">
-            </div>
-            <div class="exports imex">
-                <div class="mil"><div class="check"></div></div>
-                <div class="civ"><div class="check"></div></div>
-                <div class="ammo"><div class="check"></div></div>
-                <div class="label">Exports</div><br class="clear">
-            </div>
-            <br class="clear" />
-        </div>
-
-        <div id="aboutContainer" class='overlayCountries'>
-            <div class="arrowUp"></div>
-            <div id="aboutBox">
-                <div class="title">Information about the data</div>
-                <div class="text">
-                    This data visualization was produced by Google as part of the <a href="http://www.google.com/ideas" target="_blank">Google Ideas</a> INFO (Illicit Networks, Forces in Opposition) Summit with support from the <a href="http://igarape.org.br/" target="_blank">Igarape Institute</a> and data provided by the <a href="http://www.prio.no/" target="_blank">Peace Research Institute Oslo (PRIO)</a> small arms database. The visualization includes >1 million individual import and export data points from annual custom reports and maps the transfer of small arms, light weapons and ammunition across 250 nation states and territories around the world between 1992 and 2010.
-                </div>
-                <div class="links">
-                	<br>
-                    For more info, please see the <a href="http://igarape.org.br/armsglobe" target="_blank">FAQs</a>.
-                </div>
-            </div>
-        </div>
-    </div>
+			<input type="button" value="SEARCH" class="searchBtn attacksBtn pointer">
+			<input type="text" name="country" class="countryTextInput pointer noMapDrag" value="UNITED STATES">
+			<input type="button" value="—" class="zoomBtn zoomOutBtn attacksBtn pointer noMapDrag">
+			<input type="button" value="+" class="zoomBtn zoomInBtn attacksBtn pointer noMapDrag">
+		</div>
+		<div id="history" class="overlayCountries noPointer">
+			<div class="graph">
+				<div class="close"></div>
+				<div class="labels">
+					<div class="change">RELATIVE PERCENT ATTACK</div>
+					<div class="uploads">OUT</div>
+					<div class="downloads">IN</div><br class="clear" />
+				</div>
+				<div class="container noPointer"></div>
+			</div>
+			<ul class="timeline pointer">
+				<li>0</li>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+				<li>8</li>
+				<li>9</li>
+				<li>10</li>
+				<li>11</li>
+				<li>12</li>
+				<li>13</li>
+				<li>14</li>
+				<li>15</li>
+				<li>16</li>
+				<li>17</li>
+				<li>18</li>
+				<li>19</li>
+				<li>20</li>
+				<li>21</li>
+				<li>22</li>
+				<li>23</li>
+				<div id="handle" class="noMapDrag"></div>
+			</ul>
+		</div>
+		<div id="graphIcon" class="overlayCountries"></div>
+		<div id="downloadUploadBtns" class="overlayCountries">
+			<div class="typeLabels">
+				<div class="remote">Remote</div>
+				<div class="dos">DoS</div>
+				<div class="dbd">Drive-by</div><br class="clear">
+			</div>
+			<div class="downloads imex">
+				<div class="remote"><div class="check"></div></div>
+				<div class="dos"><div class="check"></div></div>
+				<div class="dbd"><div class="check"></div></div>
+				<div class="label">IN</div><br class="clear">
+			</div>
+			<div class="uploads imex">
+				<div class="remote"><div class="check"></div></div>
+				<div class="dos"><div class="check"></div></div>
+				<div class="dbd"><div class="check"></div></div>
+				<div class="label">OUT</div><br class="clear">
+			</div>
+			<br class="clear" />
+		</div>
+	 </div>
 	</body>
 </html>

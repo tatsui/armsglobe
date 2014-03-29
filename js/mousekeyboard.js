@@ -33,14 +33,14 @@ function onDocumentMouseMove( event ) {
 }
 
 function onDocumentMouseDown( event ) {	
-    if(event.target.className.indexOf('noMapDrag') !== -1) {
-        return;
-    }
-    dragging = true;			   
-    pressX = mouseX;
-    pressY = mouseY;   	
-    rotateTargetX = undefined;
-    rotateTargetX = undefined;
+	if(event.target.className.indexOf('noMapDrag') !== -1) {
+		return;
+	}
+	dragging = true;			   
+	pressX = mouseX;
+	pressY = mouseY;   	
+	rotateTargetX = undefined;
+	rotateTargetX = undefined;
 }	
 
 function onDocumentMouseUp( event ){
@@ -70,7 +70,7 @@ function onClick( event ){
 			// console.log(countryName);
 			var selection = selectionData;
 			selection.selectedCountry = countryName;
-			selectVisualization( timeBins, selection.selectedYear, [selection.selectedCountry], selection.getExportCategories(), selection.getImportCategories() );	
+			selectVisualization( timeBins, selection.selectedTime, [selection.selectedCountry], selection.getUploadlogs(), selection.getDownloadlogs() );	
 			// console.log('selecting ' + countryName + ' from click');
 			return;
 		}
@@ -89,7 +89,7 @@ function onMouseWheel( event ){
 	var delta = 0;
 
 	if (event.wheelDelta) { /* IE/Opera. */
-	        delta = event.wheelDelta/120;
+			delta = event.wheelDelta/120;
 	} 
 	//	firefox
 	else if( event.detail ){
@@ -97,7 +97,7 @@ function onMouseWheel( event ){
 	}
 
 	if (delta)
-	        handleMWheel(delta);
+			handleMWheel(delta);
 
 	event.returnValue = false;			
 }	

@@ -19,28 +19,28 @@ if ( ! self.Int32Array ) {
 // fixes from Paul Irish and Tino Zijdel
 
 (function() {
-    var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                   || window[vendors[x]+'RequestCancelAnimationFrame'];
-    }
+	var lastTime = 0;
+	var vendors = ['ms', 'moz', 'webkit', 'o'];
+	for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+		window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+		window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+								   || window[vendors[x]+'RequestCancelAnimationFrame'];
+	}
  
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-              timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
+	if (!window.requestAnimationFrame)
+		window.requestAnimationFrame = function(callback, element) {
+			var currTime = new Date().getTime();
+			var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+			var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+			  timeToCall);
+			lastTime = currTime + timeToCall;
+			return id;
+		};
  
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
+	if (!window.cancelAnimationFrame)
+		window.cancelAnimationFrame = function(id) {
+			clearTimeout(id);
+		};
 }());
 /**
  * @author alteredq / http://alteredqualia.com/
@@ -2515,10 +2515,10 @@ THREE.Matrix4.makeOrtho = function ( left, right, top, bottom, near, far ) {
 	y = ( top + bottom ) / h;
 	z = ( far + near ) / p;
 
-	m.n11 = 2 / w; m.n12 = 0;     m.n13 = 0;      m.n14 = -x;
-	m.n21 = 0;     m.n22 = 2 / h; m.n23 = 0;      m.n24 = -y;
-	m.n31 = 0;     m.n32 = 0;     m.n33 = -2 / p; m.n34 = -z;
-	m.n41 = 0;     m.n42 = 0;     m.n43 = 0;      m.n44 = 1;
+	m.n11 = 2 / w; m.n12 = 0;	 m.n13 = 0;	  m.n14 = -x;
+	m.n21 = 0;	 m.n22 = 2 / h; m.n23 = 0;	  m.n24 = -y;
+	m.n31 = 0;	 m.n32 = 0;	 m.n33 = -2 / p; m.n34 = -z;
+	m.n41 = 0;	 m.n42 = 0;	 m.n43 = 0;	  m.n44 = 1;
 
 	return m;
 
@@ -3492,7 +3492,7 @@ THREE.Quaternion.prototype = {
 
 		if( !dest ) { dest = vec; }
 
-		var x    = vec.x,  y  = vec.y,  z  = vec.z,
+		var x	= vec.x,  y  = vec.y,  z  = vec.z,
 			qx   = this.x, qy = this.y, qz = this.z, qw = this.w;
 
 		// calculate quat * vec
@@ -5854,7 +5854,7 @@ THREE.LOD.prototype.update = function ( camera ) {
 			if( distance >= this.LODs[ l ].visibleAtDistance ) {
 
 				this.LODs[ l - 1 ].object3D.visible = false;
-				this.LODs[ l     ].object3D.visible = true;
+				this.LODs[ l	 ].object3D.visible = true;
 
 			} else {
 
@@ -6375,8 +6375,8 @@ THREE.CanvasRenderer = function ( parameters ) {
 				}
 
 				_bboxRect.add3Points( _v1.positionScreen.x, _v1.positionScreen.y,
-						      _v2.positionScreen.x, _v2.positionScreen.y,
-						      _v3.positionScreen.x, _v3.positionScreen.y );
+							  _v2.positionScreen.x, _v2.positionScreen.y,
+							  _v3.positionScreen.x, _v3.positionScreen.y );
 
 				if ( _clipRect.intersects( _bboxRect ) ) {
 
@@ -9917,8 +9917,8 @@ THREE.WebGLRenderer = function ( parameters ) {
 			faces4 = geometryGroup.faces4,
 
 			nvertices = faces3.length * 3 + faces4.length * 4,
-			ntris     = faces3.length * 1 + faces4.length * 2,
-			nlines    = faces3.length * 3 + faces4.length * 4,
+			ntris	 = faces3.length * 1 + faces4.length * 2,
+			nlines	= faces3.length * 3 + faces4.length * 4,
 
 			material = getBufferMaterial( object, geometryGroup ),
 
@@ -10167,7 +10167,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset = v * 3;
 
-				vertexArray[ offset ]     = vertex.x;
+				vertexArray[ offset ]	 = vertex.x;
 				vertexArray[ offset + 1 ] = vertex.y;
 				vertexArray[ offset + 2 ] = vertex.z;
 
@@ -10179,7 +10179,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				color = colors[ sortArray[c][1] ];
 
-				colorArray[ offset ]     = color.r;
+				colorArray[ offset ]	 = color.r;
 				colorArray[ offset + 1 ] = color.g;
 				colorArray[ offset + 2 ] = color.b;
 
@@ -10232,7 +10232,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 								value = customAttribute.value[ index ];
 
-								customAttribute.array[ offset ]     = value.r;
+								customAttribute.array[ offset ]	 = value.r;
 								customAttribute.array[ offset + 1 ] = value.g;
 								customAttribute.array[ offset + 2 ] = value.b;
 
@@ -10266,7 +10266,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 							value = customAttribute.value[ index ];
 
-							customAttribute.array[ offset ]      = value.x;
+							customAttribute.array[ offset ]	  = value.x;
 							customAttribute.array[ offset + 1  ] = value.y;
 							customAttribute.array[ offset + 2  ] = value.z;
 							customAttribute.array[ offset + 3  ] = value.w;
@@ -10291,7 +10291,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					offset = v * 3;
 
-					vertexArray[ offset ]     = vertex.x;
+					vertexArray[ offset ]	 = vertex.x;
 					vertexArray[ offset + 1 ] = vertex.y;
 					vertexArray[ offset + 2 ] = vertex.z;
 
@@ -10307,7 +10307,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					offset = c * 3;
 
-					colorArray[ offset ]     = color.r;
+					colorArray[ offset ]	 = color.r;
 					colorArray[ offset + 1 ] = color.g;
 					colorArray[ offset + 2 ] = color.b;
 
@@ -10322,7 +10322,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 					customAttribute = customAttributes[ i ];
 
 					if ( customAttribute.needsUpdate &&
-					     ( customAttribute.boundTo === undefined ||
+						 ( customAttribute.boundTo === undefined ||
 						   customAttribute.boundTo === "vertices") ) {
 
 						cal = customAttribute.value.length;
@@ -10388,7 +10388,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 								value = customAttribute.value[ ca ];
 
-								customAttribute.array[ offset ]      = value.x;
+								customAttribute.array[ offset ]	  = value.x;
 								customAttribute.array[ offset + 1  ] = value.y;
 								customAttribute.array[ offset + 2  ] = value.z;
 								customAttribute.array[ offset + 3  ] = value.w;
@@ -10470,7 +10470,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset = v * 3;
 
-				vertexArray[ offset ]     = vertex.x;
+				vertexArray[ offset ]	 = vertex.x;
 				vertexArray[ offset + 1 ] = vertex.y;
 				vertexArray[ offset + 2 ] = vertex.z;
 
@@ -10489,7 +10489,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset = c * 3;
 
-				colorArray[ offset ]     = color.r;
+				colorArray[ offset ]	 = color.r;
 				colorArray[ offset + 1 ] = color.g;
 				colorArray[ offset + 2 ] = color.b;
 
@@ -10618,7 +10618,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset = v * 3;
 
-				vertexArray[ offset ]     = vertex.x;
+				vertexArray[ offset ]	 = vertex.x;
 				vertexArray[ offset + 1 ] = vertex.y;
 				vertexArray[ offset + 2 ] = vertex.z;
 
@@ -10637,7 +10637,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset = c * 3;
 
-				colorArray[ offset ]     = color.r;
+				colorArray[ offset ]	 = color.r;
 				colorArray[ offset + 1 ] = color.g;
 				colorArray[ offset + 2 ] = color.b;
 
@@ -10754,7 +10754,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				v2 = vertices[ face.b ].position;
 				v3 = vertices[ face.c ].position;
 
-				vertexArray[ offset ]     = v1.x;
+				vertexArray[ offset ]	 = v1.x;
 				vertexArray[ offset + 1 ] = v1.y;
 				vertexArray[ offset + 2 ] = v1.z;
 
@@ -10779,7 +10779,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				v3 = vertices[ face.c ].position;
 				v4 = vertices[ face.d ].position;
 
-				vertexArray[ offset ]     = v1.x;
+				vertexArray[ offset ]	 = v1.x;
 				vertexArray[ offset + 1 ] = v1.y;
 				vertexArray[ offset + 2 ] = v1.z;
 
@@ -10886,7 +10886,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				sw2 = obj_skinWeights[ face.b ];
 				sw3 = obj_skinWeights[ face.c ];
 
-				skinWeightArray[ offset_skin ]     = sw1.x;
+				skinWeightArray[ offset_skin ]	 = sw1.x;
 				skinWeightArray[ offset_skin + 1 ] = sw1.y;
 				skinWeightArray[ offset_skin + 2 ] = sw1.z;
 				skinWeightArray[ offset_skin + 3 ] = sw1.w;
@@ -10907,7 +10907,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				si2 = obj_skinIndices[ face.b ];
 				si3 = obj_skinIndices[ face.c ];
 
-				skinIndexArray[ offset_skin ]     = si1.x;
+				skinIndexArray[ offset_skin ]	 = si1.x;
 				skinIndexArray[ offset_skin + 1 ] = si1.y;
 				skinIndexArray[ offset_skin + 2 ] = si1.z;
 				skinIndexArray[ offset_skin + 3 ] = si1.w;
@@ -10928,7 +10928,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				sa2 = obj_skinVerticesA[ face.b ];
 				sa3 = obj_skinVerticesA[ face.c ];
 
-				skinVertexAArray[ offset_skin ]     = sa1.x;
+				skinVertexAArray[ offset_skin ]	 = sa1.x;
 				skinVertexAArray[ offset_skin + 1 ] = sa1.y;
 				skinVertexAArray[ offset_skin + 2 ] = sa1.z;
 				skinVertexAArray[ offset_skin + 3 ] = 1; // pad for faster vertex shader
@@ -10949,7 +10949,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				sb2 = obj_skinVerticesB[ face.b ];
 				sb3 = obj_skinVerticesB[ face.c ];
 
-				skinVertexBArray[ offset_skin ]     = sb1.x;
+				skinVertexBArray[ offset_skin ]	 = sb1.x;
 				skinVertexBArray[ offset_skin + 1 ] = sb1.y;
 				skinVertexBArray[ offset_skin + 2 ] = sb1.z;
 				skinVertexBArray[ offset_skin + 3 ] = 1; // pad for faster vertex shader
@@ -10979,7 +10979,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				sw3 = obj_skinWeights[ face.c ];
 				sw4 = obj_skinWeights[ face.d ];
 
-				skinWeightArray[ offset_skin ]     = sw1.x;
+				skinWeightArray[ offset_skin ]	 = sw1.x;
 				skinWeightArray[ offset_skin + 1 ] = sw1.y;
 				skinWeightArray[ offset_skin + 2 ] = sw1.z;
 				skinWeightArray[ offset_skin + 3 ] = sw1.w;
@@ -11006,7 +11006,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				si3 = obj_skinIndices[ face.c ];
 				si4 = obj_skinIndices[ face.d ];
 
-				skinIndexArray[ offset_skin ]     = si1.x;
+				skinIndexArray[ offset_skin ]	 = si1.x;
 				skinIndexArray[ offset_skin + 1 ] = si1.y;
 				skinIndexArray[ offset_skin + 2 ] = si1.z;
 				skinIndexArray[ offset_skin + 3 ] = si1.w;
@@ -11033,7 +11033,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				sa3 = obj_skinVerticesA[ face.c ];
 				sa4 = obj_skinVerticesA[ face.d ];
 
-				skinVertexAArray[ offset_skin ]     = sa1.x;
+				skinVertexAArray[ offset_skin ]	 = sa1.x;
 				skinVertexAArray[ offset_skin + 1 ] = sa1.y;
 				skinVertexAArray[ offset_skin + 2 ] = sa1.z;
 				skinVertexAArray[ offset_skin + 3 ] = 1; // pad for faster vertex shader
@@ -11060,7 +11060,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				sb3 = obj_skinVerticesB[ face.c ];
 				sb4 = obj_skinVerticesB[ face.d ];
 
-				skinVertexBArray[ offset_skin ]     = sb1.x;
+				skinVertexBArray[ offset_skin ]	 = sb1.x;
 				skinVertexBArray[ offset_skin + 1 ] = sb1.y;
 				skinVertexBArray[ offset_skin + 2 ] = sb1.z;
 				skinVertexBArray[ offset_skin + 3 ] = 1; // pad for faster vertex shader
@@ -11125,7 +11125,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				}
 
-				colorArray[ offset_color ]     = c1.r;
+				colorArray[ offset_color ]	 = c1.r;
 				colorArray[ offset_color + 1 ] = c1.g;
 				colorArray[ offset_color + 2 ] = c1.b;
 
@@ -11164,7 +11164,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				}
 
-				colorArray[ offset_color ]     = c1.r;
+				colorArray[ offset_color ]	 = c1.r;
 				colorArray[ offset_color + 1 ] = c1.g;
 				colorArray[ offset_color + 2 ] = c1.b;
 
@@ -11205,7 +11205,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				t2 = vertexTangents[ 1 ];
 				t3 = vertexTangents[ 2 ];
 
-				tangentArray[ offset_tangent ]     = t1.x;
+				tangentArray[ offset_tangent ]	 = t1.x;
 				tangentArray[ offset_tangent + 1 ] = t1.y;
 				tangentArray[ offset_tangent + 2 ] = t1.z;
 				tangentArray[ offset_tangent + 3 ] = t1.w;
@@ -11235,7 +11235,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				t3 = vertexTangents[ 2 ];
 				t4 = vertexTangents[ 3 ];
 
-				tangentArray[ offset_tangent ]     = t1.x;
+				tangentArray[ offset_tangent ]	 = t1.x;
 				tangentArray[ offset_tangent + 1 ] = t1.y;
 				tangentArray[ offset_tangent + 2 ] = t1.z;
 				tangentArray[ offset_tangent + 3 ] = t1.w;
@@ -11279,7 +11279,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 						vn = vertexNormals[ i ];
 
-						normalArray[ offset_normal ]     = vn.x;
+						normalArray[ offset_normal ]	 = vn.x;
 						normalArray[ offset_normal + 1 ] = vn.y;
 						normalArray[ offset_normal + 2 ] = vn.z;
 
@@ -11291,7 +11291,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					for ( i = 0; i < 3; i ++ ) {
 
-						normalArray[ offset_normal ]     = faceNormal.x;
+						normalArray[ offset_normal ]	 = faceNormal.x;
 						normalArray[ offset_normal + 1 ] = faceNormal.y;
 						normalArray[ offset_normal + 2 ] = faceNormal.z;
 
@@ -11316,7 +11316,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 						vn = vertexNormals[ i ];
 
-						normalArray[ offset_normal ]     = vn.x;
+						normalArray[ offset_normal ]	 = vn.x;
 						normalArray[ offset_normal + 1 ] = vn.y;
 						normalArray[ offset_normal + 2 ] = vn.z;
 
@@ -11328,7 +11328,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					for ( i = 0; i < 4; i ++ ) {
 
-						normalArray[ offset_normal ]     = faceNormal.x;
+						normalArray[ offset_normal ]	 = faceNormal.x;
 						normalArray[ offset_normal + 1 ] = faceNormal.y;
 						normalArray[ offset_normal + 2 ] = faceNormal.z;
 
@@ -11360,7 +11360,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					uvi = uv[ i ];
 
-					uvArray[ offset_uv ]     = uvi.u;
+					uvArray[ offset_uv ]	 = uvi.u;
 					uvArray[ offset_uv + 1 ] = uvi.v;
 
 					offset_uv += 2;
@@ -11382,7 +11382,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					uvi = uv[ i ];
 
-					uvArray[ offset_uv ]     = uvi.u;
+					uvArray[ offset_uv ]	 = uvi.u;
 					uvArray[ offset_uv + 1 ] = uvi.v;
 
 					offset_uv += 2;
@@ -11415,7 +11415,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					uv2i = uv2[ i ];
 
-					uv2Array[ offset_uv2 ]     = uv2i.u;
+					uv2Array[ offset_uv2 ]	 = uv2i.u;
 					uv2Array[ offset_uv2 + 1 ] = uv2i.v;
 
 					offset_uv2 += 2;
@@ -11437,7 +11437,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					uv2i = uv2[ i ];
 
-					uv2Array[ offset_uv2 ]     = uv2i.u;
+					uv2Array[ offset_uv2 ]	 = uv2i.u;
 					uv2Array[ offset_uv2 + 1 ] = uv2i.v;
 
 					offset_uv2 += 2;
@@ -11467,7 +11467,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset_face += 3;
 
-				lineArray[ offset_line ]     = vertexIndex;
+				lineArray[ offset_line ]	 = vertexIndex;
 				lineArray[ offset_line + 1 ] = vertexIndex + 1;
 
 				lineArray[ offset_line + 2 ] = vertexIndex;
@@ -11486,7 +11486,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				face = obj_faces[ chunk_faces4[ f ] ];
 
-				faceArray[ offset_face ]     = vertexIndex;
+				faceArray[ offset_face ]	 = vertexIndex;
 				faceArray[ offset_face + 1 ] = vertexIndex + 1;
 				faceArray[ offset_face + 2 ] = vertexIndex + 3;
 
@@ -11496,7 +11496,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				offset_face += 6;
 
-				lineArray[ offset_line ]     = vertexIndex;
+				lineArray[ offset_line ]	 = vertexIndex;
 				lineArray[ offset_line + 1 ] = vertexIndex + 1;
 
 				lineArray[ offset_line + 2 ] = vertexIndex;
@@ -14119,13 +14119,13 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				if ( _this.gammaInput ) {
 
-					dcolors[ doffset ]     = color.r * color.r * intensity * intensity;
+					dcolors[ doffset ]	 = color.r * color.r * intensity * intensity;
 					dcolors[ doffset + 1 ] = color.g * color.g * intensity * intensity;
 					dcolors[ doffset + 2 ] = color.b * color.b * intensity * intensity;
 
 				} else {
 
-					dcolors[ doffset ]     = color.r * intensity;
+					dcolors[ doffset ]	 = color.r * intensity;
 					dcolors[ doffset + 1 ] = color.g * intensity;
 					dcolors[ doffset + 2 ] = color.b * intensity;
 
@@ -14135,7 +14135,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 				_direction.subSelf( light.target.matrixWorld.getPosition() );
 				_direction.normalize();
 
-				dpositions[ doffset ]     = _direction.x;
+				dpositions[ doffset ]	 = _direction.x;
 				dpositions[ doffset + 1 ] = _direction.y;
 				dpositions[ doffset + 2 ] = _direction.z;
 
@@ -14147,13 +14147,13 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				if ( _this.gammaInput ) {
 
-					pcolors[ poffset ]     = color.r * color.r * intensity * intensity;
+					pcolors[ poffset ]	 = color.r * color.r * intensity * intensity;
 					pcolors[ poffset + 1 ] = color.g * color.g * intensity * intensity;
 					pcolors[ poffset + 2 ] = color.b * color.b * intensity * intensity;
 
 				} else {
 
-					pcolors[ poffset ]     = color.r * intensity;
+					pcolors[ poffset ]	 = color.r * intensity;
 					pcolors[ poffset + 1 ] = color.g * intensity;
 					pcolors[ poffset + 2 ] = color.b * intensity;
 
@@ -14161,7 +14161,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				position = light.matrixWorld.getPosition();
 
-				ppositions[ poffset ]     = position.x;
+				ppositions[ poffset ]	 = position.x;
 				ppositions[ poffset + 1 ] = position.y;
 				ppositions[ poffset + 2 ] = position.z;
 
@@ -15080,7 +15080,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 		//
 		// 	- leave some extra space for other uniforms
 		//  - limit here is ANGLE's 254 max uniform vectors
-		//    (up to 54 should be safe)
+		//	(up to 54 should be safe)
 
 		var maxBones = 50;
 
@@ -17120,17 +17120,17 @@ THREE.Curve.prototype.getUtoTmapping = function ( u, distance ) {
 	// we could get finer grain at lengths, or use simple interpolatation between two points
 
 	var lengthBefore = arcLengths[ i ];
-    var lengthAfter = arcLengths[ i + 1 ];
+	var lengthAfter = arcLengths[ i + 1 ];
 
-    var segmentLength = lengthAfter - lengthBefore;
+	var segmentLength = lengthAfter - lengthBefore;
 
-    // determine where we are between the 'before' and 'after' points
+	// determine where we are between the 'before' and 'after' points
 
-    var segmentFraction = ( targetArcLength - lengthBefore ) / segmentLength;
+	var segmentFraction = ( targetArcLength - lengthBefore ) / segmentLength;
 
-    // add that fractional amount to t
+	// add that fractional amount to t
 
-    t = ( i + segmentFraction ) / ( il -1 );
+	t = ( i + segmentFraction ) / ( il -1 );
 
 	return t;
 
@@ -17499,12 +17499,12 @@ curve.getTangentAt(t); DONE
 
 THREE.Curve.create = function( constructor, getPointFunc ) {
 
-    var subClass = constructor;
+	var subClass = constructor;
 
 	subClass.prototype = new THREE.Curve();
 
 	subClass.prototype.constructor = constructor;
-    subClass.prototype.getPoint = getPointFunc;
+	subClass.prototype.getPoint = getPointFunc;
 
 	return subClass;
 
@@ -17825,7 +17825,7 @@ THREE.CurvePath.prototype.getBoundingBox = function () {
 
 THREE.CurvePath.prototype.createPointsGeometry = function( divisions ) {
 
-    var pts = this.getPoints( divisions, true );
+	var pts = this.getPoints( divisions, true );
 	return this.createGeometry( pts );
 
 };
@@ -17834,7 +17834,7 @@ THREE.CurvePath.prototype.createPointsGeometry = function( divisions ) {
 
 THREE.CurvePath.prototype.createSpacedPointsGeometry = function( divisions ) {
 
-    var pts = this.getSpacedPoints( divisions, true );
+	var pts = this.getSpacedPoints( divisions, true );
 	return this.createGeometry( pts );
 
 };
@@ -17843,13 +17843,13 @@ THREE.CurvePath.prototype.createGeometry = function( points ) {
 
 	var geometry = new THREE.Geometry();
 
-    for( var i = 0; i < points.length; i ++ ) {
+	for( var i = 0; i < points.length; i ++ ) {
 
-        geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( points[ i ].x, points[ i ].y, 0 ) ) );
+		geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( points[ i ].x, points[ i ].y, 0 ) ) );
 
-    }
+	}
 
-    return geometry;
+	return geometry;
 
 };
 
@@ -18104,8 +18104,8 @@ THREE.Path.prototype.quadraticCurveTo = function( aCPx, aCPy, aX, aY ) {
 };
 
 THREE.Path.prototype.bezierCurveTo = function( aCP1x, aCP1y,
-                                               aCP2x, aCP2y,
-                                               aX, aY ) {
+											   aCP2x, aCP2y,
+											   aX, aY ) {
 
 	var args = Array.prototype.slice.call( arguments );
 
@@ -18430,7 +18430,7 @@ THREE.Path.prototype.nltransform = function( a, b, c, d, e, f ) {
 };
 
 
-// FUTURE Export JSON Format
+// FUTURE Upload JSON Format
 
 /* Draws this path onto a 2d canvas easily */
 
@@ -19233,7 +19233,7 @@ THREE.AnimationHandler = (function() {
 
 	var playing = [];
 	var library = {};
-	var that    = {};
+	var that	= {};
 
 
 	//--- update ---
@@ -19652,8 +19652,8 @@ THREE.Animation.prototype.update = function( deltaTimeMS ) {
 	this.currentTime += deltaTimeMS * this.timeScale;
 
 	unloopedCurrentTime = this.currentTime;
-	currentTime         = this.currentTime = this.currentTime % this.data.length;
-	frame               = parseInt( Math.min( currentTime * this.data.fps, this.data.length * this.data.fps ), 10 );
+	currentTime		 = this.currentTime = this.currentTime % this.data.length;
+	frame			   = parseInt( Math.min( currentTime * this.data.fps, this.data.length * this.data.fps ), 10 );
 
 
 	// update
@@ -19710,7 +19710,7 @@ THREE.Animation.prototype.update = function( deltaTimeMS ) {
 
 				// get keys
 
-				type    = types[ t ];
+				type	= types[ t ];
 				prevKey = animationCache.prevKey[ type ];
 				nextKey = animationCache.nextKey[ type ];
 
@@ -19788,7 +19788,7 @@ THREE.Animation.prototype.update = function( deltaTimeMS ) {
 						vector.z = prevXYZ[ 2 ] + ( nextXYZ[ 2 ] - prevXYZ[ 2 ] ) * scale;
 
 					} else if ( this.interpolationType === THREE.AnimationHandler.CATMULLROM ||
-							    this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD ) {
+								this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD ) {
 
 						this.points[ 0 ] = this.getPrevKeyWith( "pos", h, prevKey.index - 1 )[ "pos" ];
 						this.points[ 1 ] = prevXYZ;
@@ -20170,7 +20170,7 @@ THREE.KeyFrameAnimation.prototype.update = function( deltaTimeMS ) {
 	this.currentTime += deltaTimeMS * this.timeScale;
 
 	unloopedCurrentTime = this.currentTime;
-	currentTime         = this.currentTime = this.currentTime % this.data.length;
+	currentTime		 = this.currentTime = this.currentTime % this.data.length;
 
 	// if looped around, the current time should be based on the startTime
 	if ( currentTime < this.startTimeMs ) {
@@ -20179,7 +20179,7 @@ THREE.KeyFrameAnimation.prototype.update = function( deltaTimeMS ) {
 
 	}
 
-	frame               = parseInt( Math.min( currentTime * this.data.fps, this.data.length * this.data.fps ), 10 );
+	frame			   = parseInt( Math.min( currentTime * this.data.fps, this.data.length * this.data.fps ), 10 );
 	looped 				= currentTime < unloopedCurrentTime;
 
 	if ( looped && !this.loop ) {
@@ -21182,7 +21182,7 @@ THREE.PathControls = function ( object, domElement ) {
 			last  = pl - 1;
 
 		parentAnimation = { parent: -1, keys: [] };
-		parentAnimation.keys[ first ] = { time: 0,        pos: path[ first ], rot: [ 0, 0, 0, 1 ], scl: [ 1, 1, 1 ] };
+		parentAnimation.keys[ first ] = { time: 0,		pos: path[ first ], rot: [ 0, 0, 0, 1 ], scl: [ 1, 1, 1 ] };
 		parentAnimation.keys[ last  ] = { time: duration, pos: path[ last ],  rot: [ 0, 0, 0, 1 ], scl: [ 1, 1, 1 ] };
 
 		for ( i = 1; i < pl - 1; i++ ) {
@@ -21515,8 +21515,8 @@ THREE.FlyControls = function ( object, domElement ) {
 
 		var forward = ( this.moveState.forward || ( this.autoForward && !this.moveState.back ) ) ? 1 : 0;
 
-		this.moveVector.x = ( -this.moveState.left    + this.moveState.right );
-		this.moveVector.y = ( -this.moveState.down    + this.moveState.up );
+		this.moveVector.x = ( -this.moveState.left	+ this.moveState.right );
+		this.moveVector.y = ( -this.moveState.down	+ this.moveState.up );
 		this.moveVector.z = ( -forward + this.moveState.back );
 
 		//console.log( 'move:', [ this.moveVector.x, this.moveVector.y, this.moveVector.z ] );
@@ -22634,7 +22634,7 @@ THREE.ExtrudeGeometry.prototype.addShape = function( shape, options ) {
 
 	}
 
-    var vertices = shapePoints.shape;
+	var vertices = shapePoints.shape;
 	var holes = shapePoints.holes;
 
 	var reverse = !THREE.Shape.Utils.isClockWise( vertices ) ;
@@ -23732,7 +23732,7 @@ THREE.SphereGeometry.prototype.constructor = THREE.SphereGeometry;
  *  bevelSize:		<float>, 		// how far from text outline is bevel
  *
  *  bend:			<bool>			// bend according to hardcoded curve (generates bendPath)
- *  bendPath:       <curve>         // wraps text according to bend Path
+ *  bendPath:	   <curve>		 // wraps text according to bend Path
  *  }
  *
  * It uses techniques used in:
@@ -24083,9 +24083,9 @@ THREE.FontUtils = {
 
 			/* three consecutive vertices in current polygon, <u,v,w> */
 
-			u = v; 	 	if ( nv <= u ) u = 0;     /* previous */
-			v = u + 1;  if ( nv <= v ) v = 0;     /* new v    */
-			w = v + 1;  if ( nv <= w ) w = 0;     /* next     */
+			u = v; 	 	if ( nv <= u ) u = 0;	 /* previous */
+			v = u + 1;  if ( nv <= v ) v = 0;	 /* new v	*/
+			w = v + 1;  if ( nv <= w ) w = 0;	 /* next	 */
 
 			if ( snip( contour, u, v, w, nv, verts ) ) {
 
@@ -24593,7 +24593,7 @@ THREE.CameraHelper.prototype.update = function ( camera ) {
 
 	setPoint( "u1",  w * 0.7, h * 1.1, -1 );
 	setPoint( "u2", -w * 0.7, h * 1.1, -1 );
-	setPoint( "u3",        0, h * 2,   -1 );
+	setPoint( "u3",		0, h * 2,   -1 );
 
 	// cross
 
@@ -25740,13 +25740,13 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 		tri_size =  md.vertex_index_bytes * 3 + md.material_index_bytes;
 		quad_size = md.vertex_index_bytes * 4 + md.material_index_bytes;
 
-		len_tri_flat      = md.ntri_flat      * ( tri_size );
-		len_tri_smooth    = md.ntri_smooth    * ( tri_size + md.normal_index_bytes * 3 );
+		len_tri_flat	  = md.ntri_flat	  * ( tri_size );
+		len_tri_smooth	= md.ntri_smooth	* ( tri_size + md.normal_index_bytes * 3 );
 		len_tri_flat_uv   = md.ntri_flat_uv   * ( tri_size + md.uv_index_bytes * 3 );
 		len_tri_smooth_uv = md.ntri_smooth_uv * ( tri_size + md.normal_index_bytes * 3 + md.uv_index_bytes * 3 );
 
-		len_quad_flat      = md.nquad_flat      * ( quad_size );
-		len_quad_smooth    = md.nquad_smooth    * ( quad_size + md.normal_index_bytes * 4 );
+		len_quad_flat	  = md.nquad_flat	  * ( quad_size );
+		len_quad_smooth	= md.nquad_smooth	* ( quad_size + md.normal_index_bytes * 4 );
 		len_quad_flat_uv   = md.nquad_flat_uv   * ( quad_size + md.uv_index_bytes * 4 );
 		len_quad_smooth_uv = md.nquad_smooth_uv * ( quad_size + md.normal_index_bytes * 4 + md.uv_index_bytes * 4 );
 
@@ -25760,13 +25760,13 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 		currentOffset += init_uvs( currentOffset );
 
 		start_tri_flat 		= currentOffset;
-		start_tri_smooth    = start_tri_flat    + len_tri_flat    + handlePadding( md.ntri_flat * 2 );
+		start_tri_smooth	= start_tri_flat	+ len_tri_flat	+ handlePadding( md.ntri_flat * 2 );
 		start_tri_flat_uv   = start_tri_smooth  + len_tri_smooth  + handlePadding( md.ntri_smooth * 2 );
 		start_tri_smooth_uv = start_tri_flat_uv + len_tri_flat_uv + handlePadding( md.ntri_flat_uv * 2 );
 
-		start_quad_flat     = start_tri_smooth_uv + len_tri_smooth_uv  + handlePadding( md.ntri_smooth_uv * 2 );
-		start_quad_smooth   = start_quad_flat     + len_quad_flat	   + handlePadding( md.nquad_flat * 2 );
-		start_quad_flat_uv  = start_quad_smooth   + len_quad_smooth    + handlePadding( md.nquad_smooth * 2 );
+		start_quad_flat	 = start_tri_smooth_uv + len_tri_smooth_uv  + handlePadding( md.ntri_smooth_uv * 2 );
+		start_quad_smooth   = start_quad_flat	 + len_quad_flat	   + handlePadding( md.nquad_flat * 2 );
+		start_quad_flat_uv  = start_quad_smooth   + len_quad_smooth	+ handlePadding( md.nquad_smooth * 2 );
 		start_quad_smooth_uv= start_quad_flat_uv  + len_quad_flat_uv   + handlePadding( md.nquad_flat_uv * 2 );
 
 		// have to first process faces with uvs
@@ -25801,29 +25801,29 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 
 			var metaData = {
 
-				'signature'               :parseString( data, offset,  12 ),
-				'header_bytes'            :parseUChar8( data, offset + 12 ),
+				'signature'			   :parseString( data, offset,  12 ),
+				'header_bytes'			:parseUChar8( data, offset + 12 ),
 
 				'vertex_coordinate_bytes' :parseUChar8( data, offset + 13 ),
 				'normal_coordinate_bytes' :parseUChar8( data, offset + 14 ),
-				'uv_coordinate_bytes'     :parseUChar8( data, offset + 15 ),
+				'uv_coordinate_bytes'	 :parseUChar8( data, offset + 15 ),
 
-				'vertex_index_bytes'      :parseUChar8( data, offset + 16 ),
-				'normal_index_bytes'      :parseUChar8( data, offset + 17 ),
-				'uv_index_bytes'          :parseUChar8( data, offset + 18 ),
-				'material_index_bytes'    :parseUChar8( data, offset + 19 ),
+				'vertex_index_bytes'	  :parseUChar8( data, offset + 16 ),
+				'normal_index_bytes'	  :parseUChar8( data, offset + 17 ),
+				'uv_index_bytes'		  :parseUChar8( data, offset + 18 ),
+				'material_index_bytes'	:parseUChar8( data, offset + 19 ),
 
-				'nvertices'    :parseUInt32( data, offset + 20 ),
-				'nnormals'     :parseUInt32( data, offset + 20 + 4*1 ),
-				'nuvs'         :parseUInt32( data, offset + 20 + 4*2 ),
+				'nvertices'	:parseUInt32( data, offset + 20 ),
+				'nnormals'	 :parseUInt32( data, offset + 20 + 4*1 ),
+				'nuvs'		 :parseUInt32( data, offset + 20 + 4*2 ),
 
-				'ntri_flat'      :parseUInt32( data, offset + 20 + 4*3 ),
-				'ntri_smooth'    :parseUInt32( data, offset + 20 + 4*4 ),
+				'ntri_flat'	  :parseUInt32( data, offset + 20 + 4*3 ),
+				'ntri_smooth'	:parseUInt32( data, offset + 20 + 4*4 ),
 				'ntri_flat_uv'   :parseUInt32( data, offset + 20 + 4*5 ),
 				'ntri_smooth_uv' :parseUInt32( data, offset + 20 + 4*6 ),
 
-				'nquad_flat'      :parseUInt32( data, offset + 20 + 4*7 ),
-				'nquad_smooth'    :parseUInt32( data, offset + 20 + 4*8 ),
+				'nquad_flat'	  :parseUInt32( data, offset + 20 + 4*7 ),
+				'nquad_smooth'	:parseUInt32( data, offset + 20 + 4*8 ),
 				'nquad_flat_uv'   :parseUInt32( data, offset + 20 + 4*9 ),
 				'nquad_smooth_uv' :parseUInt32( data, offset + 20 + 4*10 )
 
@@ -26280,15 +26280,15 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 
 	function f3n ( scope, normals, a, b, c, mi, na, nb, nc ) {
 
-		var nax = normals[ na*3     ],
+		var nax = normals[ na*3	 ],
 			nay = normals[ na*3 + 1 ],
 			naz = normals[ na*3 + 2 ],
 
-			nbx = normals[ nb*3     ],
+			nbx = normals[ nb*3	 ],
 			nby = normals[ nb*3 + 1 ],
 			nbz = normals[ nb*3 + 2 ],
 
-			ncx = normals[ nc*3     ],
+			ncx = normals[ nc*3	 ],
 			ncy = normals[ nc*3 + 1 ],
 			ncz = normals[ nc*3 + 2 ];
 
@@ -26303,19 +26303,19 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 
 	function f4n ( scope, normals, a, b, c, d, mi, na, nb, nc, nd ) {
 
-		var nax = normals[ na*3     ],
+		var nax = normals[ na*3	 ],
 			nay = normals[ na*3 + 1 ],
 			naz = normals[ na*3 + 2 ],
 
-			nbx = normals[ nb*3     ],
+			nbx = normals[ nb*3	 ],
 			nby = normals[ nb*3 + 1 ],
 			nbz = normals[ nb*3 + 2 ],
 
-			ncx = normals[ nc*3     ],
+			ncx = normals[ nc*3	 ],
 			ncy = normals[ nc*3 + 1 ],
 			ncz = normals[ nc*3 + 2 ],
 
-			ndx = normals[ nd*3     ],
+			ndx = normals[ nd*3	 ],
 			ndy = normals[ nd*3 + 1 ],
 			ndz = normals[ nd*3 + 2 ];
 
@@ -30582,13 +30582,13 @@ THREE.JSONLoader.prototype.createModel = function ( json, callback, texture_path
 			type = faces[ offset ++ ];
 
 
-			isQuad          	= isBitSet( type, 0 );
-			hasMaterial         = isBitSet( type, 1 );
-			hasFaceUv           = isBitSet( type, 2 );
-			hasFaceVertexUv     = isBitSet( type, 3 );
-			hasFaceNormal       = isBitSet( type, 4 );
+			isQuad		  	= isBitSet( type, 0 );
+			hasMaterial		 = isBitSet( type, 1 );
+			hasFaceUv		   = isBitSet( type, 2 );
+			hasFaceVertexUv	 = isBitSet( type, 3 );
+			hasFaceNormal	   = isBitSet( type, 4 );
 			hasFaceVertexNormal = isBitSet( type, 5 );
-			hasFaceColor	    = isBitSet( type, 6 );
+			hasFaceColor		= isBitSet( type, 6 );
 			hasFaceVertexColor  = isBitSet( type, 7 );
 
 			//console.log("type", type, "bits", isQuad, hasMaterial, hasFaceUv, hasFaceVertexUv, hasFaceNormal, hasFaceVertexNormal, hasFaceColor, hasFaceVertexColor);
@@ -30739,7 +30739,7 @@ THREE.JSONLoader.prototype.createModel = function ( json, callback, texture_path
 
 			for ( i = 0, l = json.skinWeights.length; i < l; i += 2 ) {
 
-				x = json.skinWeights[ i     ];
+				x = json.skinWeights[ i	 ];
 				y = json.skinWeights[ i + 1 ];
 				z = 0;
 				w = 0;
@@ -30754,7 +30754,7 @@ THREE.JSONLoader.prototype.createModel = function ( json, callback, texture_path
 
 			for ( i = 0, l = json.skinIndices.length; i < l; i += 2 ) {
 
-				a = json.skinIndices[ i     ];
+				a = json.skinIndices[ i	 ];
 				b = json.skinIndices[ i + 1 ];
 				c = 0;
 				d = 0;
@@ -31959,15 +31959,15 @@ THREE.UTF8Loader.prototype.createModel = function ( data, callback, scale, offse
 
 	function f3n ( scope, normals, a, b, c, mi, nai, nbi, nci ) {
 
-		var nax = normals[ nai * 3     ],
+		var nax = normals[ nai * 3	 ],
 			nay = normals[ nai * 3 + 1 ],
 			naz = normals[ nai * 3 + 2 ],
 
-			nbx = normals[ nbi * 3     ],
+			nbx = normals[ nbi * 3	 ],
 			nby = normals[ nbi * 3 + 1 ],
 			nbz = normals[ nbi * 3 + 2 ],
 
-			ncx = normals[ nci * 3     ],
+			ncx = normals[ nci * 3	 ],
 			ncy = normals[ nci * 3 + 1 ],
 			ncz = normals[ nci * 3 + 2 ];
 
@@ -32071,7 +32071,7 @@ THREE.MarchingCubes = function ( resolution, material ) {
 		pout[ offset + 1 ] = y;
 		pout[ offset + 2 ] = z;
 
-		nout[ offset ] 	   = this.lerp( nc[ q ],     nc[ q + 3 ], mu );
+		nout[ offset ] 	   = this.lerp( nc[ q ],	 nc[ q + 3 ], mu );
 		nout[ offset + 1 ] = this.lerp( nc[ q + 1 ], nc[ q + 4 ], mu );
 		nout[ offset + 2 ] = this.lerp( nc[ q + 2 ], nc[ q + 5 ], mu );
 
@@ -32088,7 +32088,7 @@ THREE.MarchingCubes = function ( resolution, material ) {
 
 		var q2 = q + this.yd * 3;
 
-		nout[ offset ] 	   = this.lerp( nc[ q ],     nc[ q2 ],     mu );
+		nout[ offset ] 	   = this.lerp( nc[ q ],	 nc[ q2 ],	 mu );
 		nout[ offset + 1 ] = this.lerp( nc[ q + 1 ], nc[ q2 + 1 ], mu );
 		nout[ offset + 2 ] = this.lerp( nc[ q + 2 ], nc[ q2 + 2 ], mu );
 
@@ -32105,7 +32105,7 @@ THREE.MarchingCubes = function ( resolution, material ) {
 
 		var q2 = q + this.zd * 3;
 
-		nout[ offset ] 	   = this.lerp( nc[ q ],     nc[ q2 ],     mu );
+		nout[ offset ] 	   = this.lerp( nc[ q ],	 nc[ q2 ],	 mu );
 		nout[ offset + 1 ] = this.lerp( nc[ q + 1 ], nc[ q2 + 1 ], mu );
 		nout[ offset + 2 ] = this.lerp( nc[ q + 2 ], nc[ q2 + 2 ], mu );
 
@@ -32117,7 +32117,7 @@ THREE.MarchingCubes = function ( resolution, material ) {
 
 		if ( this.normal_cache [ q3 ] === 0.0 ) {
 
-			this.normal_cache[ q3     ] = this.field[ q - 1  ] 	    - this.field[ q + 1 ];
+			this.normal_cache[ q3	 ] = this.field[ q - 1  ] 		- this.field[ q + 1 ];
 			this.normal_cache[ q3 + 1 ] = this.field[ q - this.yd ] - this.field[ q + this.yd ];
 			this.normal_cache[ q3 + 2 ] = this.field[ q - this.zd ] - this.field[ q + this.zd ];
 
@@ -33008,14 +33008,14 @@ THREE.LensFlare.prototype.add = function ( texture, size, distance, blending, co
 	distance = Math.min( distance, Math.max( 0, distance ) );
 
 	this.lensFlares.push( { texture: texture, 			// THREE.Texture
-		                    size: size, 				// size in pixels (-1 = use texture.width)
-		                    distance: distance, 		// distance (0-1) from light source (0=at light source)
-		                    x: 0, y: 0, z: 0,			// screen position (-1 => 1) z = 0 is ontop z = 1 is back
-		                    scale: 1, 					// scale
-		                    rotation: 1, 				// rotation
-		                    opacity: opacity,			// opacity
+							size: size, 				// size in pixels (-1 = use texture.width)
+							distance: distance, 		// distance (0-1) from light source (0=at light source)
+							x: 0, y: 0, z: 0,			// screen position (-1 => 1) z = 0 is ontop z = 1 is back
+							scale: 1, 					// scale
+							rotation: 1, 				// rotation
+							opacity: opacity,			// opacity
 							color: color,				// color
-		                    blending: blending } );		// blending
+							blending: blending } );		// blending
 
 };
 
@@ -33093,8 +33093,8 @@ THREE.LensFlarePlugin = function ( ) {
 
 		// buffers
 
-		_lensFlare.vertexBuffer     = _gl.createBuffer();
-		_lensFlare.elementBuffer    = _gl.createBuffer();
+		_lensFlare.vertexBuffer	 = _gl.createBuffer();
+		_lensFlare.elementBuffer	= _gl.createBuffer();
 
 		_gl.bindBuffer( _gl.ARRAY_BUFFER, _lensFlare.vertexBuffer );
 		_gl.bufferData( _gl.ARRAY_BUFFER, _lensFlare.vertices, _gl.STATIC_DRAW );
@@ -33104,7 +33104,7 @@ THREE.LensFlarePlugin = function ( ) {
 
 		// textures
 
-		_lensFlare.tempTexture      = _gl.createTexture();
+		_lensFlare.tempTexture	  = _gl.createTexture();
 		_lensFlare.occlusionTexture = _gl.createTexture();
 
 		_gl.bindTexture( _gl.TEXTURE_2D, _lensFlare.tempTexture );
@@ -33136,16 +33136,16 @@ THREE.LensFlarePlugin = function ( ) {
 		_lensFlare.attributes = {};
 		_lensFlare.uniforms = {};
 
-		_lensFlare.attributes.vertex       = _gl.getAttribLocation ( _lensFlare.program, "position" );
-		_lensFlare.attributes.uv           = _gl.getAttribLocation ( _lensFlare.program, "uv" );
+		_lensFlare.attributes.vertex	   = _gl.getAttribLocation ( _lensFlare.program, "position" );
+		_lensFlare.attributes.uv		   = _gl.getAttribLocation ( _lensFlare.program, "uv" );
 
-		_lensFlare.uniforms.renderType     = _gl.getUniformLocation( _lensFlare.program, "renderType" );
-		_lensFlare.uniforms.map            = _gl.getUniformLocation( _lensFlare.program, "map" );
+		_lensFlare.uniforms.renderType	 = _gl.getUniformLocation( _lensFlare.program, "renderType" );
+		_lensFlare.uniforms.map			= _gl.getUniformLocation( _lensFlare.program, "map" );
 		_lensFlare.uniforms.occlusionMap   = _gl.getUniformLocation( _lensFlare.program, "occlusionMap" );
-		_lensFlare.uniforms.opacity        = _gl.getUniformLocation( _lensFlare.program, "opacity" );
-		_lensFlare.uniforms.color          = _gl.getUniformLocation( _lensFlare.program, "color" );
-		_lensFlare.uniforms.scale          = _gl.getUniformLocation( _lensFlare.program, "scale" );
-		_lensFlare.uniforms.rotation       = _gl.getUniformLocation( _lensFlare.program, "rotation" );
+		_lensFlare.uniforms.opacity		= _gl.getUniformLocation( _lensFlare.program, "opacity" );
+		_lensFlare.uniforms.color		  = _gl.getUniformLocation( _lensFlare.program, "color" );
+		_lensFlare.uniforms.scale		  = _gl.getUniformLocation( _lensFlare.program, "scale" );
+		_lensFlare.uniforms.rotation	   = _gl.getUniformLocation( _lensFlare.program, "rotation" );
 		_lensFlare.uniforms.screenPosition = _gl.getUniformLocation( _lensFlare.program, "screenPosition" );
 
 		_lensFlare.attributesEnabled = false;
@@ -33156,9 +33156,9 @@ THREE.LensFlarePlugin = function ( ) {
 	/*
 	 * Render lens flares
 	 * Method: renders 16x16 0xff00ff-colored points scattered over the light source area,
-	 *         reads these back and calculates occlusion.
-	 *         Then _lensFlare.update_lensFlares() is called to re-position and
-	 *         update transparency of flares. Then they are rendered.
+	 *		 reads these back and calculates occlusion.
+	 *		 Then _lensFlare.update_lensFlares() is called to re-position and
+	 *		 update transparency of flares. Then they are rendered.
 	 *
 	 */
 
@@ -33627,7 +33627,7 @@ THREE.SpritePlugin = function ( ) {
 		_renderer = renderer;
 
 		_sprite.vertices = new Float32Array( 8 + 8 );
-		_sprite.faces    = new Uint16Array( 6 );
+		_sprite.faces	= new Uint16Array( 6 );
 
 		var i = 0;
 
@@ -33662,25 +33662,25 @@ THREE.SpritePlugin = function ( ) {
 		_sprite.attributes = {};
 		_sprite.uniforms = {};
 
-		_sprite.attributes.position           = _gl.getAttribLocation ( _sprite.program, "position" );
-		_sprite.attributes.uv                 = _gl.getAttribLocation ( _sprite.program, "uv" );
+		_sprite.attributes.position		   = _gl.getAttribLocation ( _sprite.program, "position" );
+		_sprite.attributes.uv				 = _gl.getAttribLocation ( _sprite.program, "uv" );
 
-		_sprite.uniforms.uvOffset             = _gl.getUniformLocation( _sprite.program, "uvOffset" );
-		_sprite.uniforms.uvScale              = _gl.getUniformLocation( _sprite.program, "uvScale" );
+		_sprite.uniforms.uvOffset			 = _gl.getUniformLocation( _sprite.program, "uvOffset" );
+		_sprite.uniforms.uvScale			  = _gl.getUniformLocation( _sprite.program, "uvScale" );
 
-		_sprite.uniforms.rotation             = _gl.getUniformLocation( _sprite.program, "rotation" );
-		_sprite.uniforms.scale                = _gl.getUniformLocation( _sprite.program, "scale" );
-		_sprite.uniforms.alignment            = _gl.getUniformLocation( _sprite.program, "alignment" );
+		_sprite.uniforms.rotation			 = _gl.getUniformLocation( _sprite.program, "rotation" );
+		_sprite.uniforms.scale				= _gl.getUniformLocation( _sprite.program, "scale" );
+		_sprite.uniforms.alignment			= _gl.getUniformLocation( _sprite.program, "alignment" );
 
-		_sprite.uniforms.color                = _gl.getUniformLocation( _sprite.program, "color" );
-		_sprite.uniforms.map                  = _gl.getUniformLocation( _sprite.program, "map" );
-		_sprite.uniforms.opacity              = _gl.getUniformLocation( _sprite.program, "opacity" );
+		_sprite.uniforms.color				= _gl.getUniformLocation( _sprite.program, "color" );
+		_sprite.uniforms.map				  = _gl.getUniformLocation( _sprite.program, "map" );
+		_sprite.uniforms.opacity			  = _gl.getUniformLocation( _sprite.program, "opacity" );
 
 		_sprite.uniforms.useScreenCoordinates = _gl.getUniformLocation( _sprite.program, "useScreenCoordinates" );
 		_sprite.uniforms.affectedByDistance   = _gl.getUniformLocation( _sprite.program, "affectedByDistance" );
-		_sprite.uniforms.screenPosition    	  = _gl.getUniformLocation( _sprite.program, "screenPosition" );
-		_sprite.uniforms.modelViewMatrix      = _gl.getUniformLocation( _sprite.program, "modelViewMatrix" );
-		_sprite.uniforms.projectionMatrix     = _gl.getUniformLocation( _sprite.program, "projectionMatrix" );
+		_sprite.uniforms.screenPosition		  = _gl.getUniformLocation( _sprite.program, "screenPosition" );
+		_sprite.uniforms.modelViewMatrix	  = _gl.getUniformLocation( _sprite.program, "modelViewMatrix" );
+		_sprite.uniforms.projectionMatrix	 = _gl.getUniformLocation( _sprite.program, "projectionMatrix" );
 
 		_sprite.attributesEnabled = false;
 
@@ -34137,9 +34137,9 @@ THREE.ShaderFlares = {
 									  "texture2D( occlusionMap, vec2( 0.1, 0.5 ) ) +",
 									  "texture2D( occlusionMap, vec2( 0.5, 0.5 ) );",
 
-					"vVisibility = (       visibility.r / 9.0 ) *",
+					"vVisibility = (	   visibility.r / 9.0 ) *",
 								  "( 1.0 - visibility.g / 9.0 ) *",
-								  "(       visibility.b / 9.0 ) *",
+								  "(	   visibility.b / 9.0 ) *",
 								  "( 1.0 - visibility.a / 9.0 );",
 
 					"pos.x = cos( rotation ) * position.x - sin( rotation ) * position.y;",

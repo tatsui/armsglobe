@@ -33,7 +33,7 @@ function loadSVGAsset( filename, callback ){
 		xhr.send( null );	
 		xhr.onreadystatechange = function() {					
 			if ( xhr.readyState === 4 && xhr.status === 200 ) {
-		    	var svgString = xhr.responseText;  	
+				var svgString = xhr.responseText;  	
 				var dXML = new DOMParser();
 				dXML.async = false;
 				var svg = dXML.parseFromString( svgString, 'text/xml').documentElement;
@@ -41,7 +41,7 @@ function loadSVGAsset( filename, callback ){
 				assets[_this.filename] = svg;					
 				console.log("loaded " + _this.filename);	
 				callback(svg);
-		    }
+			}
 		};	
 	}
 }		

@@ -24,35 +24,35 @@
 
   // This code is only valid for Mac
   if (!navigator.userAgent.match(/Macintosh/)) {
-    return;
+	return;
   }
 
   // Handle scroll events in Chrome
   if (navigator.userAgent.match(/Chrome/)) {
 
-    // TODO: This only prevents scroll when reaching the topmost or leftmost
-    // positions of a container. It doesn't handle rightmost or bottom,
-    // and Lion scroll can be triggered by scrolling right (or bottom) and then
-    // scrolling left without raising your fingers from the scroll position.
-    $(window).mousewheel(function (e, d, x, y) {
+	// TODO: This only prevents scroll when reaching the topmost or leftmost
+	// positions of a container. It doesn't handle rightmost or bottom,
+	// and Lion scroll can be triggered by scrolling right (or bottom) and then
+	// scrolling left without raising your fingers from the scroll position.
+	$(window).mousewheel(function (e, d, x, y) {
 
-      var prevent_left, prevent_up;
+	  var prevent_left, prevent_up;
 
-      // If none of the parents can be scrolled left when we try to scroll left
-      prevent_left = x < 0 && !_($(e.target).parents()).detect(function (el) {
-        return $(el).scrollLeft() > 0;
-      });
+	  // If none of the parents can be scrolled left when we try to scroll left
+	  prevent_left = x < 0 && !_($(e.target).parents()).detect(function (el) {
+		return $(el).scrollLeft() > 0;
+	  });
 
-      // If none of the parents can be scrolled up when we try to scroll up
-      prevent_up = y > 0 && !_($(e.target).parents()).detect(function  (el) {
-        return $(el).scrollTop() > 0;
-      });
+	  // If none of the parents can be scrolled up when we try to scroll up
+	  prevent_up = y > 0 && !_($(e.target).parents()).detect(function  (el) {
+		return $(el).scrollTop() > 0;
+	  });
 
-      // Prevent futile scroll, which would trigger the Back/Next page event
-      if (prevent_left || prevent_up) {
-        e.preventDefault();
-      }
-    });
+	  // Prevent futile scroll, which would trigger the Back/Next page event
+	  if (prevent_left || prevent_up) {
+		e.preventDefault();
+	  }
+	});
 
   }
 

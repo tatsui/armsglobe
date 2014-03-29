@@ -3,58 +3,58 @@ function buildDataVizGeometries( linearData ){
 	var loadLayer = document.getElementById('loading');
 
 	for( var i in linearData ){
-		var yearBin = linearData[i].data;		
+		var timeBin = linearData[i].data;		
 
-		var year = linearData[i].t;
-		selectableYears.push(year);	
+		var time = linearData[i].t;
+		selectableTimes.push(time);	
 
 		var count = 0;
-		console.log('Building data for ...' + year);
-		for( var s in yearBin ){
-			var set = yearBin[s];
+		console.log('Building data for ...' + time);
+		for( var s in timeBin ){
+			var set = timeBin[s];
 
-			var exporterName = set.e.toUpperCase();
-			var importerName = set.i.toUpperCase();
+			var uploaderName = set.e.toUpperCase();
+			var downloaderName = set.i.toUpperCase();
 
-			exporter = countryData[exporterName];
-			importer = countryData[importerName];	
+			uploader = countryData[uploaderName];
+			downloader = countryData[downloaderName];	
 			
 			//	we couldn't find the country, it wasn't in our list...
-			if( exporter === undefined || importer === undefined )
+			if( uploader === undefined || downloader === undefined )
 				continue;			
 
 			//	visualize this event
-			set.lineGeometry = makeConnectionLineGeometry( exporter, importer, set.v, set.wc );		
+			set.lineGeometry = makeConnectionLineGeometry( uploader, downloader, set.v, set.wc );		
 
 			// if( s % 1000 == 0 )
-			// 	console.log( 'calculating ' + s + ' of ' + yearBin.length + ' in year ' + year);
+			// 	console.log( 'calculating ' + s + ' of ' + timeBin.length + ' in time ' + time);
 		}
 
-		//	use this break to only visualize one year (1992)
+		//	use this break to only visualize one time (1992)
 		// break;
 
 		//	how to make this work?
-		// loadLayer.innerHTML = 'loading data for ' + year + '...';
+		// loadLayer.innerHTML = 'loading data for ' + time + '...';
 		// console.log(loadLayer.innerHTML);
 	}			
 
 	loadLayer.style.display = 'none';	
 }
 
-function getVisualizedMesh( linearData, year, countries, exportCategories, importCategories ){
+function getVisualizedMesh( linearData, time, countries, uploadlogs, downloadlogs ){
 	//	for comparison purposes, all caps the country names
 	for( var i in countries ){
 		countries[i] = countries[i].toUpperCase();
 	}
 
-	//	pick out the year first from the data
-	var indexFromYear = parseInt(year) - 1992;
-	if( indexFromYear >= timeBins.length )
-		indexFromYear = timeBins.length-1;
+	//	pick out the time first from the data
+	var indexFromTime = parseInt(time);
+	if( indexFromTime >= timeBins.length )
+		indexFromTime = timeBins.length-1;
 
 	var affectedCountries = [];
 
-	var bin = linearData[indexFromYear].data;	
+	var bin = linearData[indexFromTime].data;	
 
 	var linesGeo = new THREE.Geometry();
 	var lineColors = [];
@@ -62,39 +62,39 @@ function getVisualizedMesh( linearData, year, countries, exportCategories, impor
 	var particlesGeo = new THREE.Geometry();
 	var particleColors = [];			
 
-	// var careAboutExports = ( action === 'exports' );
-	// var careAboutImports = ( action === 'imports' );
+	// var careAboutUploads = ( action === 'uploads' );
+	// var careAboutDownloads = ( action === 'downloads' );
 	// var careAboutBoth = ( action === 'both' );
 
-	//	go through the data from year, and find all relevant geometries
+	//	go through the data from time, and find all relevant geometries
 	for( i in bin ){
 		var set = bin[i];
 
 		//	filter out countries we don't care about
-		var exporterName = set.e.toUpperCase();
-		var importerName = set.i.toUpperCase();
-		var relevantExport = $.inArray(exporterName, countries) >= 0;
-		var relevantImport = $.inArray(importerName, countries) >= 0;
+		var uploaderName = set.e.toUpperCase();
+		var downloaderName = set.i.toUpperCase();
+		var relevantUpload = $.inArray(uploaderName, countries) >= 0;
+		var relevantDownload = $.inArray(downloaderName, countries) >= 0;
 
-		var useExporter = relevantExport;
-		var useImporter = relevantImport;
+		var useUploader = relevantUpload;
+		var useDownloader = relevantDownload;
 
 		var categoryName = reverseWeaponLookup[set.wc];
-		var relevantExportCategory = relevantExport && $.inArray(categoryName,exportCategories) >= 0;		
-		var relevantImportCategory = relevantImport && $.inArray(categoryName,importCategories) >= 0;		
+		var relevantUploadCategory = relevantUpload && $.inArray(categoryName,uploadlogs) >= 0;		
+		var relevantDownloadCategory = relevantDownload && $.inArray(categoryName,downloadlogs) >= 0;		
 
-		if( (useImporter || useExporter) && (relevantExportCategory || relevantImportCategory) ){
+		if( (useDownloader || useUploader) && (relevantUploadCategory || relevantDownloadCategory) ){
 			//	we may not have line geometry... (?)
 			if( set.lineGeometry === undefined )
 				continue;
 
-			var thisLineIsExport = false;
+			var thisLineIsUpload = false;
 
-			if(exporterName == selectedCountry.countryName ){
-				thisLineIsExport = true;
+			if(uploaderName == selectedCountry.countryName ){
+				thisLineIsUpload = true;
 			}
 
-			var lineColor = thisLineIsExport ? new THREE.Color(exportColor) : new THREE.Color(importColor);
+			var lineColor = thisLineIsUpload ? new THREE.Color(uploadColor) : new THREE.Color(downloadColor);
 
 			var lastColor;
 			//	grab the colors from the vertices
@@ -132,44 +132,44 @@ function getVisualizedMesh( linearData, year, countries, exportCategories, impor
 				particleColors.push( particleColor );						
 			}			
 
-			if( $.inArray( exporterName, affectedCountries ) < 0 ){
-				affectedCountries.push(exporterName);
+			if( $.inArray( uploaderName, affectedCountries ) < 0 ){
+				affectedCountries.push(uploaderName);
 			}							
 
-			if( $.inArray( importerName, affectedCountries ) < 0 ){
-				affectedCountries.push(importerName);
+			if( $.inArray( downloaderName, affectedCountries ) < 0 ){
+				affectedCountries.push(downloaderName);
 			}
 
 			var vb = set.v;
-			var exporterCountry = countryData[exporterName];
-			if( exporterCountry.mapColor === undefined ){
-				exporterCountry.mapColor = vb;
+			var uploaderCountry = countryData[uploaderName];
+			if( uploaderCountry.mapColor === undefined ){
+				uploaderCountry.mapColor = vb;
 			}
 			else{				
-				exporterCountry.mapColor += vb;
+				uploaderCountry.mapColor += vb;
 			}			
 
-			var importerCountry = countryData[importerName];
-			if( importerCountry.mapColor === undefined ){
-				importerCountry.mapColor = vb;
+			var downloaderCountry = countryData[downloaderName];
+			if( downloaderCountry.mapColor === undefined ){
+				downloaderCountry.mapColor = vb;
 			}
 			else{				
-				importerCountry.mapColor += vb;
+				downloaderCountry.mapColor += vb;
 			}	
 
-			exporterCountry.exportedAmount += vb;
-			importerCountry.importedAmount += vb;
+			uploaderCountry.uploadedAmount += vb;
+			downloaderCountry.downloadedAmount += vb;
 
-			if( exporterCountry == selectedCountry ){				
-				selectedCountry.summary.exported[set.wc] += set.v;
-				selectedCountry.summary.exported.total += set.v;				
+			if( uploaderCountry == selectedCountry ){				
+				selectedCountry.summary.uploaded[set.wc] += set.v;
+				selectedCountry.summary.uploaded.total += set.v;				
 			}		
-			if( importerCountry == selectedCountry ){
-				selectedCountry.summary.imported[set.wc] += set.v;
-				selectedCountry.summary.imported.total += set.v;
+			if( downloaderCountry == selectedCountry ){
+				selectedCountry.summary.downloaded[set.wc] += set.v;
+				selectedCountry.summary.downloaded.total += set.v;
 			}
 
-			if( importerCountry == selectedCountry || exporterCountry == selectedCountry ){
+			if( downloaderCountry == selectedCountry || uploaderCountry == selectedCountry ){
 				selectedCountry.summary.total += set.v;	
 			}
 
@@ -199,14 +199,14 @@ function getVisualizedMesh( linearData, year, countries, exportCategories, impor
 
 	uniforms = {
 		amplitude: { type: "f", value: 1.0 },
-		color:     { type: "c", value: new THREE.Color( 0xffffff ) },
+		color:	 { type: "c", value: new THREE.Color( 0xffffff ) },
 		texture:   { type: "t", value: 0, texture: THREE.ImageUtils.loadTexture( "images/particleA.png" ) },
 	};
 
 	var shaderMaterial = new THREE.ShaderMaterial( {
 
 		uniforms: 		uniforms,
-		attributes:     attributes,
+		attributes:	 attributes,
 		vertexShader:   document.getElementById( 'vertexshader' ).textContent,
 		fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
 
@@ -273,25 +273,25 @@ function getVisualizedMesh( linearData, year, countries, exportCategories, impor
 	return splineOutline;	
 }
 
-function selectVisualization( linearData, year, countries, exportCategories, importCategories ){
+function selectVisualization( linearData, time, countries, uploadlogs, downloadlogs ){
 	//	we're only doing one country for now so...
 	var cName = countries[0].toUpperCase();
 	
 	$("#hudButtons .countryTextInput").val(cName);
 	previouslySelectedCountry = selectedCountry;
 	selectedCountry = countryData[countries[0].toUpperCase()];
-    
+	
 	selectedCountry.summary = {
-		imported: {
-			mil: 0,
-			civ: 0,
-			ammo: 0,
+		downloaded: {
+			remote: 0,
+			dos: 0,
+			dbd: 0,
 			total: 0,
 		},
-		exported: {
-			mil: 0,
-			civ: 0,
-			ammo: 0,
+		uploaded: {
+			remote: 0,
+			dos: 0,
+			dbd: 0,
 			total: 0,
 		},
 		total: 0,
@@ -303,8 +303,8 @@ function selectVisualization( linearData, year, countries, exportCategories, imp
 	//	clear off the country's internally held color data we used from last highlight
 	for( var i in countryData ){
 		var country = countryData[i];
-		country.exportedAmount = 0;
-		country.importedAmount = 0;
+		country.uploadedAmount = 0;
+		country.downloadedAmount = 0;
 		country.mapColor = 0;
 	}
 
@@ -321,7 +321,7 @@ function selectVisualization( linearData, year, countries, exportCategories, imp
 
 	//	build the mesh
 	console.time('getVisualizedMesh');
-	var mesh = getVisualizedMesh( timeBins, year, countries, exportCategories, importCategories );				
+	var mesh = getVisualizedMesh( timeBins, time, countries, uploadlogs, downloadlogs );				
 	console.timeEnd('getVisualizedMesh');
 
 	//	add it to scene graph
@@ -346,22 +346,22 @@ function selectVisualization( linearData, year, countries, exportCategories, imp
 		if( selectedCountry ){
 			rotateTargetX = selectedCountry.lat * Math.PI/180;
 			var targetY0 = -(selectedCountry.lon - 9) * Math.PI / 180;
-            var piCounter = 0;
+			var piCounter = 0;
 			while(true) {
-                var targetY0Neg = targetY0 - Math.PI * 2 * piCounter;
-                var targetY0Pos = targetY0 + Math.PI * 2 * piCounter;
-                if(Math.abs(targetY0Neg - rotating.rotation.y) < Math.PI) {
-                    rotateTargetY = targetY0Neg;
-                    break;
-                } else if(Math.abs(targetY0Pos - rotating.rotation.y) < Math.PI) {
-                    rotateTargetY = targetY0Pos;
-                    break;
-                }
-                piCounter++;
-                rotateTargetY = wrap(targetY0, -Math.PI, Math.PI);
+				var targetY0Neg = targetY0 - Math.PI * 2 * piCounter;
+				var targetY0Pos = targetY0 + Math.PI * 2 * piCounter;
+				if(Math.abs(targetY0Neg - rotating.rotation.y) < Math.PI) {
+					rotateTargetY = targetY0Neg;
+					break;
+				} else if(Math.abs(targetY0Pos - rotating.rotation.y) < Math.PI) {
+					rotateTargetY = targetY0Pos;
+					break;
+				}
+				piCounter++;
+				rotateTargetY = wrap(targetY0, -Math.PI, Math.PI);
 			}
-            // console.log(rotateTargetY);
-            //lines commented below source of rotation error
+			// console.log(rotateTargetY);
+			//lines commented below source of rotation error
 			//is there a more reliable way to ensure we don't rotate around the globe too much? 
 			/*
 			if( Math.abs(rotateTargetY - rotating.rotation.y) > Math.PI )
@@ -371,6 +371,6 @@ function selectVisualization( linearData, year, countries, exportCategories, imp
 			rotateVY *= 0.6;		
 		}	
 	}
-    
-    d3Graphs.initGraphs();
+	
+	d3Graphs.initGraphs();
 }

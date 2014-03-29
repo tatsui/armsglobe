@@ -10,7 +10,7 @@ function onMarkerHover( event ){
 	// 	console.log('clicked on something!!');				
 }
 
-function attachMarkerToCountry( countryName, importance ){
+function attachMarkerToCountry( countryName, downloadance ){
 	//	look up the name to mesh
 	countryName = countryName.toUpperCase();
 	var country = countryData[countryName];
@@ -26,10 +26,10 @@ function attachMarkerToCountry( countryName, importance ){
 
 	marker.countryName = countryName;
 
-	marker.importance = importance;
+	marker.downloadance = downloadance;
 	marker.selected = false;
 	marker.hover = false;
-    if( countryName === selectedCountry.countryName.toUpperCase() )
+	if( countryName === selectedCountry.countryName.toUpperCase() )
 		marker.selected = true;
 
 	marker.setPosition = function(x,y,z){
@@ -45,20 +45,20 @@ function attachMarkerToCountry( countryName, importance ){
 			this.style.display = 'inline';
 		}
 	}
-    var countryLayer = marker.querySelector( '#countryText');
-    marker.countryLayer = countryLayer;
+	var countryLayer = marker.querySelector( '#countryText');
+	marker.countryLayer = countryLayer;
 	var detailLayer = marker.querySelector( '#detailText' );
 	marker.detailLayer = detailLayer;
-    marker.jquery = $(marker);
+	marker.jquery = $(marker);
 	marker.setSize = function( s ){
-	    var detailSize = Math.floor(2 + s * 0.5);	
+		var detailSize = Math.floor(2 + s * 0.5);	
 		this.detailLayer.style.fontSize = detailSize + 'pt';
-        var totalHeight = detailSize * 2;
+		var totalHeight = detailSize * 2;
 		this.style.fontSize = totalHeight * 1.125 + 'pt';
 		if(detailSize <= 8) {
-            this.countryLayer.style.marginTop = "0px";  
+			this.countryLayer.style.marginTop = "0px";  
 		} else {
-		    this.countryLayer.style.marginTop = "-1px";
+			this.countryLayer.style.marginTop = "-1px";
 		}
 	}
 
@@ -68,9 +68,9 @@ function attachMarkerToCountry( countryName, importance ){
 		var screenPos = screenXY(abspos);			
 
 		var s = 0.3 + camera.scale.z * 1;
-		var importanceScale = this.importance / 5000000;
-		importanceScale = constrain( importanceScale, 0, 18 );
-		s += importanceScale;
+		var downloadanceScale = this.downloadance / 5000000;
+		downloadanceScale = constrain( downloadanceScale, 0, 18 );
+		s += downloadanceScale;
 
 		if( this.tiny )
 			s *= 0.75;
@@ -97,8 +97,8 @@ function attachMarkerToCountry( countryName, importance ){
 
 	var nameLayer = marker.querySelector( '#countryText' );		
 
-	//	right now, something arbitrary like 10 mil dollars or more to be highlighted
-	var tiny = (importance < 20000000) && (!marker.selected);	
+	//	right now, something arbitrary like 10 remote dollars or more to be highlighted
+	var tiny = (downloadance < 20000000) && (!marker.selected);	
 	marker.tiny = tiny;
 
 	// if( tiny )
@@ -110,21 +110,21 @@ function attachMarkerToCountry( countryName, importance ){
 	// marker.nameLayerText = countryName;
 	// marker.nameLayerShorten = country.countryCode;;	
 	
-	var importExportText = "";
-	if(country.exportedAmount > 0 && country.importedAmount > 0) {
-	   importExportText += "imported:&nbsp;$" + numberWithCommas(country.importedAmount) + "<br />" +
-	       "exported:&nbsp;$"+numberWithCommas(country.exportedAmount);
-	} else if(country.exportedAmount > 0 && country.importedAmount == 0) {
-	   importExportText += "exported:&nbsp;$"+numberWithCommas(country.exportedAmount)+"<br />&nbsp;";
-	} else if(country.exportedAmount == 0 && country.importedAmount > 0) {
-	   importExportText += "imported:&nbsp;$"+numberWithCommas(country.importedAmount)+"<br />&nbsp;";
+	var downloadUploadText = "";
+	if(country.uploadedAmount > 0 && country.downloadedAmount > 0) {
+	   downloadUploadText += "in:&nbsp;" + numberWithCommas(country.downloadedAmount) + "<br />" +
+		   "out:&nbsp;"+numberWithCommas(country.uploadedAmount);
+	} else if(country.uploadedAmount > 0 && country.downloadedAmount == 0) {
+	   downloadUploadText += "out:&nbsp;"+numberWithCommas(country.uploadedAmount)+"<br />&nbsp;";
+	} else if(country.uploadedAmount == 0 && country.downloadedAmount > 0) {
+	   downloadUploadText += "in:&nbsp;"+numberWithCommas(country.downloadedAmount)+"<br />&nbsp;";
 	}
 
-	marker.importExportText = importExportText;
+	marker.downloadUploadText = downloadUploadText;
 
 
 	var markerOver = function(e){
-		this.detailLayer.innerHTML = importExportText;
+		this.detailLayer.innerHTML = downloadUploadText;
 		this.hover = true;
 	}
 
@@ -134,7 +134,7 @@ function attachMarkerToCountry( countryName, importance ){
 	}
 
 	if( !tiny ) {		
-		detailLayer.innerHTML = importExportText;
+		detailLayer.innerHTML = downloadUploadText;
 	}
 	else{
 		marker.addEventListener( 'mouseover', markerOver, false );
@@ -144,7 +144,7 @@ function attachMarkerToCountry( countryName, importance ){
 
 	var markerSelect = function(e){
 		var selection = selectionData;
-		selectVisualization( timeBins, selection.selectedYear, [this.countryName], selection.getExportCategories(), selection.getImportCategories() );	
+		selectVisualization( timeBins, selection.selectedTime, [this.countryName], selection.getUploadlogs(), selection.getDownloadlogs() );	
 	};
 	marker.addEventListener('click', markerSelect, true);
 

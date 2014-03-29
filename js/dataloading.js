@@ -9,19 +9,19 @@ function loadWorldPins( callback ){
 	xhr.onreadystatechange = function() {
 	  // If we've received the data
 	  if ( xhr.readyState === 4 && xhr.status === 200 ) {
-	      // Parse the JSON
-	      latlonData = JSON.parse( xhr.responseText );
-	      if( callback )
-	      	callback();				     
-	    }
+		  // Parse the JSON
+		  latlonData = JSON.parse( xhr.responseText );
+		  if( callback )
+		  	callback();					 
+		}
 	};
 
 	// Begin request
-	xhr.send( null );			    	
+	xhr.send( null );					
 }
 
 function loadContentData(callback){	
-	var filePath = "categories/All.json";
+	var filePath = "logs/All.json";
 	filePath = encodeURI( filePath );
 	// console.log(filePath);
 			
@@ -29,21 +29,21 @@ function loadContentData(callback){
 	xhr.open( 'GET', filePath, true );
 	xhr.onreadystatechange = function() {
 		if ( xhr.readyState === 4 && xhr.status === 200 ) {
-	    	timeBins = JSON.parse( xhr.responseText ).timeBins;
+			timeBins = JSON.parse( xhr.responseText ).timeBins;
 		
 			maxValue = 0;
 			// console.log(timeBins);
 
 			startTime = timeBins[0].t;
-	    	endTime = timeBins[timeBins.length-1].t;
-	    	timeLength = endTime - startTime;				    											    	
+			endTime = timeBins[timeBins.length-1].t;
+			timeLength = endTime - startTime;																		
 
 			if(callback)
 				callback();				
-	    	console.log("finished read data file");	   	
-	    }
+			console.log("finished read data file");	   	
+		}
 	};
-	xhr.send( null );					    	
+	xhr.send( null );							
 }
 
 function loadCountryCodes( callback ){
@@ -51,10 +51,10 @@ function loadCountryCodes( callback ){
 	cxhr.open( 'GET', isoFile, true );
 	cxhr.onreadystatechange = function() {
 		if ( cxhr.readyState === 4 && cxhr.status === 200 ) {
-	    	countryLookup = JSON.parse( cxhr.responseText );	
-	    	console.log("loaded country codes");
-	    	callback();
-	    }
+			countryLookup = JSON.parse( cxhr.responseText );	
+			console.log("loaded country codes");
+			callback();
+		}
 	};
 	cxhr.send( null );
 }

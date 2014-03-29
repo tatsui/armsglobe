@@ -1,6 +1,6 @@
 function loadGeoData( latlonData ){
-    //	-----------------------------------------------------------------------------
-    //	Load the world geo data json, per country	
+	//	-----------------------------------------------------------------------------
+	//	Load the world geo data json, per country	
 
 	var sphereRad = 1;				
 	var rad = 100;
@@ -20,18 +20,18 @@ function loadGeoData( latlonData ){
 		country.countryName = countryLookup[i];			
 
 		//	take the lat lon from the data and convert this to 3d globe space
-        var lon = country.lon - 90;
-        var lat = country.lat;
-        
-        var phi = Math.PI/2 - lat * Math.PI / 180 - Math.PI * 0.01;
-        var theta = 2 * Math.PI - lon * Math.PI / 180 + Math.PI * 0.06;
+		var lon = country.lon - 90;
+		var lat = country.lat;
 		
-		var center = new THREE.Vector3();                
-        center.x = Math.sin(phi) * Math.cos(theta) * rad;
-        center.y = Math.cos(phi) * rad;
-        center.z = Math.sin(phi) * Math.sin(theta) * rad;  	
+		var phi = Math.PI/2 - lat * Math.PI / 180 - Math.PI * 0.01;
+		var theta = 2 * Math.PI - lon * Math.PI / 180 + Math.PI * 0.06;
+		
+		var center = new THREE.Vector3();				
+		center.x = Math.sin(phi) * Math.cos(theta) * rad;
+		center.y = Math.cos(phi) * rad;
+		center.z = Math.sin(phi) * Math.sin(theta) * rad;  	
 	
-		//	save and catalogue       
+		//	save and catalogue	   
 		country.center = center;
 		countryData[country.countryName] = country;	
 	}		

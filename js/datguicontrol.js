@@ -10,10 +10,10 @@ var controllers = {
 function buildGUI(){	
 	var selection = new Selection();
 	selectionData = selection;
-    /*
+	/*
 	var updateVisualization = function(){
-		selectVisualization( timeBins, selection.selectedYear, [selection.selectedCountry], selection.getExportCategories(), selection.getImportCategories() );	
-	}		    	
+		selectVisualization( timeBins, selection.selectedTime, [selection.selectedCountry], selection.getUploadlogs(), selection.getDownloadlogs() );	
+	}				
 
 	var changeFunction = function(v){
 		updateVisualization();
@@ -24,29 +24,29 @@ function buildGUI(){
 	}
 
 	var gui = new dat.GUI();
-	var c = gui.add( selection, 'selectedYear', selectableYears );
+	var c = gui.add( selection, 'selectedTime', selectableTimes );
 	c.onFinishChange( changeFunction );
 
 	c = gui.add( selection, 'selectedCountry', selectableCountries );
 	c.onFinishChange( changeFunction );		
 
-	// c = gui.add( selection, 'showExports' );
+	// c = gui.add( selection, 'showUploads' );
 	// c.onFinishChange( filterFunction );
 
-	// c = gui.add( selection, 'showImports' );
+	// c = gui.add( selection, 'showDownloads' );
 	// c.onFinishChange( filterFunction );
 
-	var catFilterExports = gui.addFolder('Exports');
-	for( var i in selection.exportCategories ){
-		var catSwitch = selection.exportCategories[i];
-		c = catFilterExports.add( selection.exportCategories, i );	
+	var catFilterUploads = gui.addFolder('Uploads');
+	for( var i in selection.uploadlogs ){
+		var catSwitch = selection.uploadlogs[i];
+		c = catFilterUploads.add( selection.uploadlogs, i );	
 		c.onFinishChange( categoryFunction );
 	}
 
-	var catFilterImports = gui.addFolder('Imports');
-	for( var i in selection.importCategories ){
-		var catSwitch = selection.importCategories[i];
-		c = catFilterImports.add( selection.importCategories, i );	
+	var catFilterDownloads = gui.addFolder('Downloads');
+	for( var i in selection.downloadlogs ){
+		var catSwitch = selection.downloadlogs[i];
+		c = catFilterDownloads.add( selection.downloadlogs, i );	
 		c.onFinishChange( categoryFunction );
 	}	
 	gui.close();

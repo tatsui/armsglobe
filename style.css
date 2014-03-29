@@ -1,4 +1,4 @@
-/* Import Roboto Font */
+/* Download Roboto Font */
 @font-face {
     font-family: 'Roboto';
     src: url('roboto/roboto-regular-webfont.eot');
@@ -47,7 +47,7 @@
 
 }	
 
-/*Import Ropa Sans Font, do we need other font file types??*/
+/*Download Ropa Sans Font, do we need other font file types??*/
 @font-face {
     font-family: 'RopaSans';
     src: url('ropasans/RopaSans-Regular.ttf') format('truetype');
@@ -214,7 +214,7 @@ Elements to control the title and country selector
 	font-family: 			'RopaSans';
 	text-transform:          uppercase;
 }
-#hudButtons .armsBtn {
+#hudButtons .attacksBtn {
     float: right;
     background: 			#333333;
     padding: 				3px 10px 2px;
@@ -226,7 +226,7 @@ Elements to control the title and country selector
 	margin-right: 			0px;
 	opacity:                0.9;
 }
-#hudButtons .armsBtn:hover {
+#hudButtons .attacksBtn:hover {
     opacity: 1;
 }
 #hudButtons .aboutBtn {
@@ -278,25 +278,25 @@ Bar graph on left
     left:-7px;
     opacity: 0.9;
 }
-#barGraph .import.ammo {
+#barGraph .download.dbd {
 	fill: 					#44B2D4;
 }
-#barGraph .import.civ {
+#barGraph .download.dos {
 	fill: 					#4679C1;
 }
-#barGraph .import.mil {
+#barGraph .download.remote {
 	fill:					#1658B2;
 }
-#barGraph .export.ammo {
+#barGraph .upload.dbd {
 	fill: 					#FFA90B;
 }
-#barGraph .export.civ {
+#barGraph .upload.dos {
 	fill: 					#FF7018;
 }
-#barGraph .export.mil {
+#barGraph .upload.remote {
 	fill:					#E83E0A;
 }
-#barGraph .importLabel text,#barGraph .exportLabel text {
+#barGraph .downloadLabel text,#barGraph .uploadLabel text {
 	fill: 					white;
     font-family:			Roboto;
 }
@@ -305,12 +305,12 @@ Bar graph on left
     font-family:			Roboto;
     font-size: 				23px;
 }
-#barGraph .exportLabel {
+#barGraph .uploadLabel {
     font-family: 			Roboto;
     font-size: 				14px;
     fill: 					#FFA90B;
 }
-#barGraph .importLabel {
+#barGraph .downloadLabel {
     font-family: 			Roboto;
     font-size: 				14px;
     fill: 					#44B2D4;
@@ -335,7 +335,7 @@ Bar graph on left
     color:                  white;
     font-size:              12px;
     font-family:            'Roboto';
-    width:                  668px;
+    width:                  848px;
     background:             url('timelineBG.png') 8px 0 no-repeat; /*to be resized!*/
 }
 #history ul li {
@@ -350,10 +350,10 @@ Bar graph on left
     cursor:                 pointer;
     width:                  36px;
     height:                 36px;
-    background:             url('yearHandle.png') 0px 0 no-repeat;
+    background:             url('timeHandle.png') 0px 0 no-repeat;
     position:               absolute;
     bottom:                 20px;
-    left:                   642px;    
+    left:                   12px;    
 }
 #history .graph {
     display: none;
@@ -380,14 +380,14 @@ Bar graph on left
     float: left;
     margin-top: 10px;
 }
-#history .labels .imports {
+#history .labels .downloads {
     float: right;
     font-family: Roboto;
     font-size: 14px;
     color:#70B4CB;
     margin-top: 10px;
 }
-#history .labels .exports {
+#history .labels .uploads {
     float: right;
     font-family: Roboto;
     font-size: 14px;
@@ -399,10 +399,10 @@ Bar graph on left
     fill: none;
     stroke-width: 2px;
 }
-#histogram .export {
+#histogram .upload {
     stroke:         #FFA90B;
 }
-#histogram .import {
+#histogram .download {
     stroke:         #44B2D4;
 }
 #histogram .tick {
@@ -425,38 +425,38 @@ Bar graph on left
     fill: #fff;
 }
 
-/* import export buttons (bottom right)*/
-#importExportBtns {
+/* download upload buttons (bottom right)*/
+#downloadUploadBtns {
     width:                  298px;
     position:               absolute;
     bottom:                 0px;
     color:                  white;
     display:                none;
 }
-#importExportBtns>div>div {
+#downloadUploadBtns>div>div {
     float:                  left;
     width:                  60px;
     text-align:             center;
     height:                 28px;
 }
-#importExportBtns .imex>div {
+#downloadUploadBtns .imex>div {
     background:             #262626;
 }
-#importExportBtns .typeLabels div {
+#downloadUploadBtns .typeLabels div {
     font-family:            'Roboto';
     font-size:              13px;
     text-transform:         uppercase;
     margin-bottom:-12px;
 }
 
-#importExportBtns .imex>div {
+#downloadUploadBtns .imex>div {
 	cursor: pointer;
 	opacity: 0.9;
 }
-#importExportBtns .imex>div:hover {
+#downloadUploadBtns .imex>div:hover {
     opacity: 1;
 }
-#importExportBtns>div>.label {
+#downloadUploadBtns>div>.label {
     width:              98px;
     height:             25px;
     text-transform:     uppercase;
@@ -467,58 +467,58 @@ Bar graph on left
     vertical-align:     middle;
     padding-top:        3px;
 }
-#importExportBtns .imports .label {
+#downloadUploadBtns .downloads .label {
     color:              #44B2D4;
 }
-#importExportBtns .exports .label {
+#downloadUploadBtns .uploads .label {
     color:              #FFA90B;
 }
-#importExportBtns .imports {
+#downloadUploadBtns .downloads {
     margin-bottom:      5px;
 }
-#importExportBtns .mil, #importExportBtns .civ {
+#downloadUploadBtns .remote, #downloadUploadBtns .dos {
     margin-right:       5px;
 }
-#importExportBtns .imex .check {
+#downloadUploadBtns .imex .check {
     width: 16px;
     height: 16px;
-    background: #262626 url('importExportIcons.png') 0 0 no-repeat;
+    background: #262626 url('updownIcons.png') 0 0 no-repeat;
     margin: 6px auto;
 }
-#importExportBtns .imports .mil .check {
+#downloadUploadBtns .downloads .remote .check {
     background-position: 0px 0px;
 }
-#importExportBtns .imports .mil .check.inactive {
+#downloadUploadBtns .downloads .remote .check.inactive {
     background-position: 0px -16px;
 }
-#importExportBtns .imports .civ .check {
+#downloadUploadBtns .downloads .dos .check {
     background-position: -16px 0px;
 }
-#importExportBtns .imports .civ .check.inactive {
+#downloadUploadBtns .downloads .dos .check.inactive {
     background-position: -16px -16px;
 }
-#importExportBtns .imports .ammo .check {
+#downloadUploadBtns .downloads .dbd .check {
     background-position: -32px 0px;
 }
-#importExportBtns .imports .ammo .check.inactive {
+#downloadUploadBtns .downloads .dbd .check.inactive {
     background-position: -32px -16px;
 }
-#importExportBtns .exports .mil .check {
+#downloadUploadBtns .uploads .remote .check {
     background-position: -48px 0px;
 }
-#importExportBtns .exports .mil .check.inactive {
+#downloadUploadBtns .uploads .remote .check.inactive {
     background-position: -48px -16px;
 }
-#importExportBtns .exports .civ .check {
+#downloadUploadBtns .uploads .dos .check {
     background-position: -64px 0px;
 }
-#importExportBtns .exports .civ .check.inactive {
+#downloadUploadBtns .uploads .dos .check.inactive {
     background-position: -64px -16px;
 }
-#importExportBtns .exports .ammo .check {
+#downloadUploadBtns .uploads .dbd .check {
     background-position: -80px 0px;
 }
-#importExportBtns .exports .ammo .check.inactive {
+#downloadUploadBtns .uploads .dbd .check.inactive {
     background-position: -80px -16px;
 }
 
@@ -583,19 +583,19 @@ Bar graph on left
 
 /* Small size */
 @media all and (max-width: 1395px) {
-    #importExportBtns {
+    #downloadUploadBtns {
         width: 187px;
     }
-    #importExportBtns>div>div {
+    #downloadUploadBtns>div>div {
         width: 23px;
     }
-    #importExportBtns .imex>div {
+    #downloadUploadBtns .imex>div {
         background: transparent;
     }
-    #importExportBtns .imex .label {
+    #downloadUploadBtns .imex .label {
         background: #262626;
     }
-    #importExportBtns .typeLabels div {
+    #downloadUploadBtns .typeLabels div {
         font-size: 12px;
         -webkit-transform:rotate(323deg);
         -moz-transform:rotate(323deg);
@@ -604,13 +604,13 @@ Bar graph on left
         margin-top: -2px;
     }
     
-    #importExportBtns .typeLabels .mil {
+    #downloadUploadBtns .typeLabels .remote {
         margin-left: 8px;
     }
-    #importExportBtns .typeLabels .civ {
+    #downloadUploadBtns .typeLabels .dos {
         margin-left: 2px;
     }
-    #importExportBtns .typeLabels .ammo {
+    #downloadUploadBtns .typeLabels .dbd {
         margin-left: -1px;
     }
 }

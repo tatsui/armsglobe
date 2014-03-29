@@ -20,46 +20,46 @@ var lookupTexture;
 var backTexture;
 var worldCanvas;
 var sphere;
-var rotating;	
-var visualizationMesh;							
+var rotating;
+var visualizationMesh;
 
 var mapUniforms;
 
-//	contains the data loaded from the arms data file
+//	contains the data loaded from the attacks data file
 //	contains a list of years, followed by trades within that year
-//	properties for each "trade" is: e - exporter, i - importer, v - value (USD), wc - weapons code (see table)
+//	properties for each "trade" is: e - uploader, i - downloader, v - value (USD), wc - weapons code (see table)
 var timeBins;
 
 //	contains latlon data for each country
-var latlonData;			    
+var latlonData;
 
 //	contains above but organized as a mapped list via ['countryname'] = countryobject
 //	each country object has data like center of country in 3d space, lat lon, country name, and country code
-var countryData = new Object();		
+var countryData = new Object();
 
 //	contains a list of country code to country name for running lookups
-var countryLookup;		    
+var countryLookup;
 
-var selectableYears = [];
-var selectableCountries = [];			    
+var selectableTimes = [];
+var selectableCountries = [];
 
 /*
-	930100 – military weapons, and includes some light weapons and artillery as well as machine guns and assault rifles etc.  
-	930190 – military firearms – eg assault rifles, machineguns (sub, light, heavy etc), combat shotguns, machine pistols etc
+	930100 – attack weapons, and includes some light weapons and artillery as well as machine guns and assault rifles etc.  
+	930190 – attack Attacks – eg assault rifles, machineguns (sub, light, heavy etc), combat shotguns, machine pistols etc
 	930200 – pistols and revolvers
-	930320 – Sporting shotguns (anything that isn’t rated as a military item).
+	930320 – Sporting shotguns (anything that isn’t rated as a attack item).
 	930330 – Sporting rifles (basically anything that isn’t fully automatic).
 	930621 – shotgun shells
-	930630 – small caliber ammo (anything below 14.5mm which isn’t fired from a shotgun.
+	930630 – small caliber dbd (anything below 14.5mm which isn’t fired from a shotgun.
 */
 
 //	a list of weapon 'codes'
-//	now they are just strings of categories
+//	now they are just strings of logs
 //	Category Name : Category Code
 var weaponLookup = {
-	'Military Weapons' 		: 'mil',
-	'Civilian Weapons'		: 'civ',
-	'Ammunition'			: 'ammo',
+	'Remote' 		: 'remote',
+	'DoS'		: 'dos',
+	'Drive-by'			: 'dbd',
 };
 
 //	a list of the reverse for easy lookup
@@ -68,23 +68,23 @@ for( var i in weaponLookup ){
 	var name = i;
 	var code = weaponLookup[i];
 	reverseWeaponLookup[code] = name;
-}	    	
+}			
 
 //	A list of category colors
 var categoryColors = {
-	'mil' : 0xdd380c,
-	'civ' : 0x3dba00,
-	'ammo' : 0x154492,
+	'remote' : 0xdd380c,
+	'dos' : 0x3dba00,
+	'dbd' : 0x154492,
 }
 
-var exportColor = 0xdd380c;
-var importColor = 0x154492;
+var uploadColor = 0xdd380c;
+var downloadColor = 0x154492;
 
 //	the currently selected country
 var selectedCountry = null;
 var previouslySelectedCountry = null;
 
-//	contains info about what year, what countries, categories, etc that's being visualized
+//	contains info about what year, what countries, logs, etc that's being visualized
 var selectionData;
 
 //	when the app is idle this will be true
@@ -113,13 +113,13 @@ function start( e ){
 				loadCountryCodes(
 					function(){
 						loadWorldPins(
-							function(){										
-								loadContentData(								
-									function(){																	
+							function(){
+								loadContentData(
+									function(){
 										initScene();
 										animate();		
 									}
-								);														
+								);
 							}
 						);
 					}
@@ -132,32 +132,32 @@ function start( e ){
 
 
 var Selection = function(){
-	this.selectedYear = '2010';
+	this.selectedTime = '0';
 	this.selectedCountry = 'UNITED STATES';
-	// this.showExports = true;
-	// this.showImports = true;
-	// this.importExportFilter = 'both';
+	// this.showUploads = true;
+	// this.showDownloads = true;
+	// this.downloadUploadFilter = 'both';
 
-	this.exportCategories = new Object();
-	this.importCategories = new Object();
+	this.uploadlogs = new Object();
+	this.downloadlogs = new Object();
 	for( var i in weaponLookup ){
-		this.exportCategories[i] = true;
-		this.importCategories[i] = true;
+		this.uploadlogs[i] = true;
+		this.downloadlogs[i] = true;
 	}				
 
-	this.getExportCategories = function(){
+	this.getUploadlogs = function(){
 		var list = [];
-		for( var i in this.exportCategories ){
-			if( this.exportCategories[i] )
+		for( var i in this.uploadlogs ){
+			if( this.uploadlogs[i] )
 				list.push(i);
 		}
 		return list;
 	}		
 
-	this.getImportCategories = function(){
+	this.getDownloadlogs = function(){
 		var list = [];
-		for( var i in this.importCategories ){
-			if( this.importCategories[i] )
+		for( var i in this.downloadlogs ){
+			if( this.downloadlogs[i] )
 				list.push(i);
 		}
 		return list;
@@ -169,32 +169,32 @@ var Selection = function(){
 function initScene() {
 
 	//	-----------------------------------------------------------------------------
-    //	Let's make a scene		
+	//	Let's make a scene
 	scene = new THREE.Scene();
-	scene.matrixAutoUpdate = false;		
-	// scene.fog = new THREE.FogExp2( 0xBBBBBB, 0.00003 );		        		       
+	scene.matrixAutoUpdate = false;
+	// scene.fog = new THREE.FogExp2( 0xBBBBBB, 0.00003 );
 
-	scene.add( new THREE.AmbientLight( 0x505050 ) );				
+	scene.add( new THREE.AmbientLight( 0xffffff ) );
 
-	light1 = new THREE.SpotLight( 0xeeeeee, 3 );
+	light1 = new THREE.SpotLight( 0xffffff, 3 );
 	light1.position.x = 730; 
 	light1.position.y = 520;
 	light1.position.z = 626;
 	light1.castShadow = true;
 	scene.add( light1 );
 
-	light2 = new THREE.PointLight( 0x222222, 14.8 );
+	light2 = new THREE.PointLight( 0xffffff, 3 );
 	light2.position.x = -640;
 	light2.position.y = -500;
 	light2.position.z = -1000;
-	scene.add( light2 );				
+	scene.add( light2 );
 
 	rotating = new THREE.Object3D();
 	scene.add(rotating);
 
-	lookupCanvas = document.createElement('canvas');	
+	lookupCanvas = document.createElement('canvas');
 	lookupCanvas.width = 256;
-	lookupCanvas.height = 1;
+	lookupCanvas.height = 256;
 	
 	lookupTexture = new THREE.Texture( lookupCanvas );
 	lookupTexture.magFilter = THREE.NearestFilter;
@@ -209,11 +209,19 @@ function initScene() {
 
 	var outlinedMapTexture = new THREE.Texture( mapOutlineImage );
 	outlinedMapTexture.needsUpdate = true;
-	// outlinedMapTexture.magFilter = THREE.NearestFilter;
-	// outlinedMapTexture.minFilter = THREE.NearestFilter;
+	outlinedMapTexture.magFilter = THREE.NearestFilter;
+	outlinedMapTexture.minFilter = THREE.NearestFilter;
+
+	var oceanGeometry = new THREE.SphereGeometry( 100, 40, 40 );
+	var oceanMaterial = new THREE.MeshLambertMaterial( { color: 0x000000, 
+		opacity:0.5 ,
+		transparent: true,
+		map: new THREE.ImageUtils.loadTexture('./images/ocean.png') } );
+	var ocean = new THREE.Mesh( oceanGeometry, oceanMaterial);
+	scene.add( ocean );
 
 	var uniforms = {
-		'mapIndex': { type: 't', value: 0, texture: indexedMapTexture  },		
+		'mapIndex': { type: 't', value: 0, texture: indexedMapTexture  },
 		'lookup': { type: 't', value: 1, texture: lookupTexture },
 		'outline': { type: 't', value: 2, texture: outlinedMapTexture },
 		'outlineLevel': {type: 'f', value: 1 },
@@ -221,67 +229,52 @@ function initScene() {
 	mapUniforms = uniforms;
 
 	var shaderMaterial = new THREE.ShaderMaterial( {
-
-		uniforms: 		uniforms,
-		// attributes:     attributes,
+		uniforms: uniforms,
+		// attributes:	 attributes,
 		vertexShader:   document.getElementById( 'globeVertexShader' ).textContent,
 		fragmentShader: document.getElementById( 'globeFragmentShader' ).textContent,
 		// sizeAttenuation: true,
+		blending: THREE.AdditiveBlending, transparent: true, depthTest: false,
 	});
 
-
-    //	-----------------------------------------------------------------------------
-    //	Create the backing (sphere)
-    // var mapGraphic = new THREE.Texture(worldCanvas);//THREE.ImageUtils.loadTexture("images/map.png");
-    // backTexture =  mapGraphic;
-    // mapGraphic.needsUpdate = true;
-	backMat = new THREE.MeshBasicMaterial(
-		{
-			// color: 		0xffffff, 
-			// shininess: 	10, 
-// 			specular: 	0x333333,
-			// map: 		mapGraphic,
-			// lightMap: 	mapGraphic
-		}
-	);				
-	// backMat.ambient = new THREE.Color(255,255,255);							
-	sphere = new THREE.Mesh( new THREE.SphereGeometry( 100, 40, 40 ), shaderMaterial );				
-	// sphere.receiveShadow = true;
-	// sphere.castShadow = true;
+	var sphereGeometry = new THREE.SphereGeometry( 100, 40, 40 );
+	shaderMaterial.transparent = true;
+	sphere = new THREE.Mesh( sphereGeometry, shaderMaterial);
+	sphere.receiveShadow = true;
+	sphere.castShadow = true;
 	sphere.doubleSided = false;
-	sphere.rotation.x = Math.PI;				
+	sphere.rotation.x = Math.PI;
 	sphere.rotation.y = -Math.PI/2;
 	sphere.rotation.z = Math.PI;
 	sphere.id = "base";	
-	rotating.add( sphere );	
+	rotating.add( sphere );
 
-
-	for( var i in timeBins ){					
+	for( var i in timeBins ){
 		var bin = timeBins[i].data;
 		for( var s in bin ){
 			var set = bin[s];
 			// if( set.v < 1000000 )
 			// 	continue;
 
-			var exporterName = set.e.toUpperCase();
-			var importerName = set.i.toUpperCase();
+			var uploaderName = set.e.toUpperCase();
+			var downloaderName = set.i.toUpperCase();
 
 			//	let's track a list of actual countries listed in this data set
 			//	this is actually really slow... consider re-doing this with a map
-			if( $.inArray(exporterName, selectableCountries) < 0 )
-				selectableCountries.push( exporterName );
+			if( $.inArray(uploaderName, selectableCountries) < 0 )
+				selectableCountries.push( uploaderName );
 
-			if( $.inArray(importerName, selectableCountries) < 0 )
-				selectableCountries.push( importerName );
+			if( $.inArray(downloaderName, selectableCountries) < 0 )
+				selectableCountries.push( downloaderName );
 		}
 	}
 
-	console.log( selectableCountries );
+	//console.log( selectableCountries );
 	
 	// load geo data (country lat lons in this case)
-	console.time('loadGeoData');
-	loadGeoData( latlonData );				
-	console.timeEnd('loadGeoData');				
+	//console.time('loadGeoData');
+	loadGeoData( latlonData );
+	console.timeEnd('loadGeoData');
 
 	console.time('buildDataVizGeometries');
 	var vizilines = buildDataVizGeometries(timeBins);
@@ -292,26 +285,26 @@ function initScene() {
 
 	buildGUI();
 
-	selectVisualization( timeBins, '2010', ['UNITED STATES'], ['Military Weapons','Civilian Weapons', 'Ammunition'], ['Military Weapons','Civilian Weapons', 'Ammunition'] );					
+	selectVisualization( timeBins, '0', ['UNITED STATES'], ['Remote', 'Dos', 'Drive-by'], ['Remote', 'Dos', 'Drive-by'] );
 
-		// test for highlighting specific countries
+	// test for highlighting specific countries
 	// highlightCountry( ["United States", "Switzerland", "China"] );
 
 
-    //	-----------------------------------------------------------------------------
-    //	Setup our renderer
+	//	-----------------------------------------------------------------------------
+	//	Setup our renderer
 	renderer = new THREE.WebGLRenderer({antialias:false});
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.autoClear = false;
 	
-	renderer.sortObjects = false;		
-	renderer.generateMipmaps = false;					
+	renderer.sortObjects = false;
+	renderer.generateMipmaps = false;
+	
+	glContainer.appendChild( renderer.domElement );
 
-	glContainer.appendChild( renderer.domElement );									
 
-
-    //	-----------------------------------------------------------------------------
-    //	Event listeners
+	//	-----------------------------------------------------------------------------
+	//	Event listeners
 	document.addEventListener( 'mousemove', onDocumentMouseMove, true );
 	document.addEventListener( 'windowResize', onDocumentResize, false );
 
@@ -323,34 +316,34 @@ function initScene() {
 	masterContainer.addEventListener( 'click', onClick, true );	
 	masterContainer.addEventListener( 'mousewheel', onMouseWheel, false );
 	
-	//	firefox	
+	//	firefox
 	masterContainer.addEventListener( 'DOMMouseScroll', function(e){
-		    var evt=window.event || e; //equalize event object
-    		onMouseWheel(evt);
+			var evt=window.event || e; //equalize event object
+			onMouseWheel(evt);
 	}, false );
 
-	document.addEventListener( 'keydown', onKeyDown, false);												    			    	
+	document.addEventListener( 'keydown', onKeyDown, false);
 
-    //	-----------------------------------------------------------------------------
-    //	Setup our camera
-    camera = new THREE.PerspectiveCamera( 12, window.innerWidth / window.innerHeight, 1, 20000 ); 		        
+	//	-----------------------------------------------------------------------------
+	//	Setup our camera
+	camera = new THREE.PerspectiveCamera( 12, window.innerWidth / window.innerHeight, 1, 20000 ); 				
 	camera.position.z = 1400;
 	camera.position.y = 0;
-	camera.lookAt(scene.width/2, scene.height/2);	
-	scene.add( camera );	  
+	camera.lookAt(scene.width/2, scene.height/2);
+	scene.add( camera );  
 
-	var windowResize = THREEx.WindowResize(renderer, camera)		
+	var windowResize = THREEx.WindowResize(renderer, camera)
 }
 	
 
-function animate() {	
+function animate() {
 
 	//	Disallow roll for now, this is interfering with keyboard input during search
-/*	    	
+/*			
 	if(keyboard.pressed('o') && keyboard.pressed('shift') == false)
-		camera.rotation.z -= 0.08;		    	
+		camera.rotation.z -= 0.08;
 	if(keyboard.pressed('p') && keyboard.pressed('shift') == false)
-		camera.rotation.z += 0.08;		   
+		camera.rotation.z += 0.08;
 */
 
 	if( rotateTargetX !== undefined && rotateTargetY !== undefined ){
@@ -366,7 +359,7 @@ function animate() {
 		// move.multiplyScalar( distance );
 
 		// rotateVX = move.x;
-		// rotateVy = move.y;		
+		// rotateVy = move.y;
 
 		if( Math.abs(rotateTargetX - rotateX) < 0.1 && Math.abs(rotateTargetY - rotateY) < 0.1 ){
 			rotateTargetX = undefined;
@@ -385,12 +378,12 @@ function animate() {
 	if(dragging || rotateTargetX !== undefined ){
 		rotateVX *= 0.6;
 		rotateVY *= 0.6;
-	}	     
+	}
 
 	rotateY += controllers.spin * 0.01;
 
-	//	constrain the pivot up/down to the poles
-	//	force a bit of bounce back action when hitting the poles
+	//constrain the pivot up/down to the poles
+	//force a bit of bounce back action when hitting the poles
 	if(rotateX < -rotateXMax){
 		rotateX = -rotateXMax;
 		rotateVX *= -0.95;
@@ -398,17 +391,15 @@ function animate() {
 	if(rotateX > rotateXMax){
 		rotateX = rotateXMax;
 		rotateVX *= -0.95;
-	}		    			    		   
+	}
 
 	TWEEN.update();		
 
 	rotating.rotation.x = rotateX;
 	rotating.rotation.y = rotateY;	
 
-    render();	
-    		        		       
-    requestAnimationFrame( animate );	
-
+	render();
+	requestAnimationFrame( animate );
 
 	THREE.SceneUtils.traverseHierarchy( rotating, 
 		function(mesh) {
@@ -421,14 +412,14 @@ function animate() {
 	for( var i in markers ){
 		var marker = markers[i];
 		marker.update();
-	}		    	
+	}
 
 }
 
-function render() {	
-	renderer.clear();		    					
-    renderer.render( scene, camera );				
-}		   
+function render() {
+	renderer.clear();
+	renderer.render( scene, camera );
+}   
 
 function findCode(countryName){
 	countryName = countryName.toUpperCase();
@@ -474,16 +465,9 @@ function highlightCountry( countries ){
 	//	all non-countries were being pointed to 10 - bolivia
 	//	the fact that it didn't select was because bolivia shows up as an invalid country due to country name mismatch
 	//	...
-	var pickMask = countries.length == 0 ? 0 : 1;
-	var oceanFill = 10 * pickMask;
-	ctx.fillStyle = 'rgb(' + oceanFill + ',' + oceanFill + ',' + oceanFill +')';
+	ctx.fillStyle = "rgb(60, 0, 0)";
+	ctx.beginPath();
 	ctx.fillRect( 0, 0, 1, 1 );
-
-	// for( var i = 0; i<255; i++ ){
-	// 	var fillCSS = 'rgb(' + i + ',' + 0 + ',' + i + ')';
-	// 	ctx.fillStyle = fillCSS;
-	// 	ctx.fillRect( i, 0, 1, 1 );
-	// }
 
 	var selectedCountryCode = selectedCountry.countryCode;
 	
@@ -492,15 +476,9 @@ function highlightCountry( countries ){
 		var colorIndex = countryColorMap[ countryCode ];
 
 		var mapColor = countryData[countries[i]].mapColor;
-		// var fillCSS = '#ff0000';
-		var fillCSS = '#333333';
+		var fillCSS = '#aaaaaa';
 		if( countryCode === selectedCountryCode )
-			fillCSS = '#eeeeee'
-		// if( mapColor !== undefined ){
-		// 	var k = map( mapColor, 0, 200000000, 0, 255 );
-		// 	k = Math.floor( constrain( k, 0, 255 ) );
-		// 	fillCSS = 'rgb(' + k + ',' + k + ',' + k + ')';
-		// }
+			fillCSS = '#ffffff'
 		ctx.fillStyle = fillCSS;
 		ctx.fillRect( colorIndex, 0, 1, 1 );
 	}
@@ -509,36 +487,35 @@ function highlightCountry( countries ){
 }
 
 function getHistoricalData( country ){
-	var history = [];	
+	var history = [];
 
 	var countryName = country.countryName;
 
-	var exportCategories = selectionData.getExportCategories();
-	var importCategories = selectionData.getImportCategories();
+	var uploadlogs = selectionData.getUploadlogs();
+	var downloadlogs = selectionData.getDownloadlogs();
 
 	for( var i in timeBins ){
-		var yearBin = timeBins[i].data;		
-		var value = {imports: 0, exports:0};
+		var yearBin = timeBins[i].data;
+		var value = {downloads: 0, uploads:0};
 		for( var s in yearBin ){
 			var set = yearBin[s];
 			var categoryName = reverseWeaponLookup[set.wc];
 
-			var exporterCountryName = set.e.toUpperCase();
-			var importerCountryName = set.i.toUpperCase();			
-			var relevantCategory = ( countryName == exporterCountryName && $.inArray(categoryName, exportCategories ) >= 0 ) || 
-								   ( countryName == importerCountryName && $.inArray(categoryName, importCategories ) >= 0 );				
+			var uploaderCountryName = set.e.toUpperCase();
+			var downloaderCountryName = set.i.toUpperCase();
+			var relevantCategory = ( countryName == uploaderCountryName && $.inArray(categoryName, uploadlogs ) >= 0 ) || ( countryName == downloaderCountryName && $.inArray(categoryName, downloadlogs ) >= 0 );
 
 			if( relevantCategory == false )
 				continue;
 
 			//	ignore all unidentified country data
-			if( countryData[exporterCountryName] === undefined || countryData[importerCountryName] === undefined )
+			if( countryData[uploaderCountryName] === undefined || countryData[downloaderCountryName] === undefined )
 				continue;
 			
-			if( exporterCountryName == countryName )
-				value.exports += set.v;
-			if( importerCountryName == countryName )
-				value.imports += set.v;
+			if( uploaderCountryName == countryName )
+				value.uploads += set.v;
+			if( downloaderCountryName == countryName )
+				value.downloads += set.v;
 		}
 		history.push(value);
 	}
@@ -559,31 +536,31 @@ function getPickColor(){
 	renderer.autoClear = false;
 	renderer.autoClearColor = false;
 	renderer.autoClearDepth = false;
-	renderer.autoClearStencil = false;	
+	renderer.autoClearStencil = false;
 	renderer.preserve
 
-    renderer.clear();
-    renderer.render(scene,camera);
+	renderer.clear();
+	renderer.render(scene,camera);
 
-    var gl = renderer.context;
-    gl.preserveDrawingBuffer = true;
+	var gl = renderer.context;
+	gl.preserveDrawingBuffer = true;
 
 	var mx = ( mouseX + renderer.context.canvas.width/2 );//(mouseX + renderer.context.canvas.width/2) * 0.25;
 	var my = ( -mouseY + renderer.context.canvas.height/2 );//(-mouseY + renderer.context.canvas.height/2) * 0.25;
 	mx = Math.floor( mx );
 	my = Math.floor( my );
 
-	var buf = new Uint8Array( 4 );		    	
+	var buf = new Uint8Array( 4 );
 	// console.log(buf);
 	gl.readPixels( mx, my, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, buf );
-	// console.log(buf);		
+	// console.log(buf);
 
 	renderer.autoClear = true;
 	renderer.autoClearColor = true;
 	renderer.autoClearDepth = true;
 	renderer.autoClearStencil = true;
 
-	gl.preserveDrawingBuffer = false;	
+	gl.preserveDrawingBuffer = false;
 
 	mapUniforms['outlineLevel'].value = 1;
 	rotating.add(visualizationMesh);
@@ -592,5 +569,5 @@ function getPickColor(){
 	if( affectedCountries !== undefined ){
 		highlightCountry(affectedCountries);
 	}
-	return buf[0]; 	
+	return buf[0];
 }

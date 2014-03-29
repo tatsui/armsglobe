@@ -6,7 +6,7 @@
 // **Step 1**: Start updating renderer and camera
 //
 // ```var windowResize = THREEx.WindowResize(aRenderer, aCamera)```
-//    
+//	
 // **Step 2**: Start updating renderer and camera
 //
 // ```windowResize.stop()```
@@ -25,11 +25,11 @@ var THREEx	= THREEx 		|| {};
 */
 THREEx.WindowResize	= function(renderer, camera){
 	var callback	= function(){
-	    var minWidth = 1280;
-	    var w = window.innerWidth;
-	    if(w < minWidth) {
-	       w = minWidth;
-	    }
+		var minWidth = 1280;
+		var w = window.innerWidth;
+		if(w < minWidth) {
+		   w = minWidth;
+		}
 		// notify the renderer of the size change
 		renderer.setSize( w, window.innerHeight );
 		// update the camera

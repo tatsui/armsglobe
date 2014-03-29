@@ -43,8 +43,8 @@ function gup( name )
 
 function wrap(value, min, rangeSize) {
 	rangeSize-=min;
-    while (value < min) {
-    	value += rangeSize;
+	while (value < min) {
+		value += rangeSize;
 	}
 	return value % rangeSize;
 }
@@ -70,11 +70,11 @@ function screenXY(vec3){
 	var projector = new THREE.Projector();
 	var vector = projector.projectVector( vec3.clone(), camera );
 	var result = new Object();
-    var windowWidth = window.innerWidth;
-    var minWidth = 1280;
-    if(windowWidth < minWidth) {
-        windowWidth = minWidth;
-    }
+	var windowWidth = window.innerWidth;
+	var minWidth = 1280;
+	if(windowWidth < minWidth) {
+		windowWidth = minWidth;
+	}
 	result.x = Math.round( vector.x * (windowWidth/2) ) + windowWidth/2;
 	result.y = Math.round( (0-vector.y) * (window.innerHeight/2) ) + window.innerHeight/2;
 	return result;
@@ -99,7 +99,7 @@ function buildHexColumnGeo(rad, height){
 		bevelEnabled:  	false,
 	};
 	var extrudedGeo = new THREE.ExtrudeGeometry(shape, options);
-	return extrudedGeo;	    	
+	return extrudedGeo;			
 }
 
 function map(v, i1, i2, o1, o2) {
@@ -107,7 +107,7 @@ function map(v, i1, i2, o1, o2) {
  }
 
  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function roundNumber(num, dec) {
@@ -116,112 +116,112 @@ function roundNumber(num, dec) {
 }
 
 function save(data, filename, mime) {
-    
-    window.webkitRequestFileSystem(window.TEMPORARY, 1024 * 1024, initRecord, errorHandler("Error getting file system"));
-    
-    function initRecord(fs) {
-      var create = function() {
-        fs.root.getFile("data.tar", {create: true}, function(fileEntry) {
+	
+	window.webkitRequestFileSystem(window.TEMPORARY, 1024 * 1024, initRecord, errorHandler("Error getting file system"));
+	
+	function initRecord(fs) {
+	  var create = function() {
+		fs.root.getFile("data.tar", {create: true}, function(fileEntry) {
 
-          // Create a FileWriter object for our FileEntry (log.txt).
-          fileEntry.createWriter(function(fileWriter) {
+		  // Create a FileWriter object for our FileEntry (log.txt).
+		  fileEntry.createWriter(function(fileWriter) {
 
 
-            var bb = new window.WebKitBlobBuilder();
+			var bb = new window.WebKitBlobBuilder();
 
-            data = dataURItoBlob(data);
-            var header = createHeader(filename, data.byteLength, mime);
-            bb.append(header);
-            bb.append(data);
+			data = dataURItoBlob(data);
+			var header = createHeader(filename, data.byteLength, mime);
+			bb.append(header);
+			bb.append(data);
 
 //
-            fileWriter.write(bb.getBlob('tar/archive'));
-            window.open(fileEntry.toURL(), "_blank", "width=400,height=10");
+			fileWriter.write(bb.getBlob('tar/archive'));
+			window.open(fileEntry.toURL(), "_blank", "width=400,height=10");
 
 
-          }, errorHandler("Error creating writer"));
+		  }, errorHandler("Error creating writer"));
 
-        }, errorHandler("Error getting file"));
-      };
-      // delete any previous
-      fs.root.getFile("data.tar", {create: false}, function(fileEntry) {
-        fileEntry.remove(create, errorHandler("Error deleting file"));
-      }, create);
-    }
+		}, errorHandler("Error getting file"));
+	  };
+	  // delete any previous
+	  fs.root.getFile("data.tar", {create: false}, function(fileEntry) {
+		fileEntry.remove(create, errorHandler("Error deleting file"));
+	  }, create);
+	}
 
   function dumpString(value, ia, off, size) {
-    var i,x;
-    var sum = 0;
-    var len = Math.min(value.length, size);
-    for (i = 0; i < len; i++) {
-      x = value.charCodeAt(i);
-      ia[off] = x;
-      sum += x;
-      off += 1;
-    }
-    return sum;
+	var i,x;
+	var sum = 0;
+	var len = Math.min(value.length, size);
+	for (i = 0; i < len; i++) {
+	  x = value.charCodeAt(i);
+	  ia[off] = x;
+	  sum += x;
+	  off += 1;
+	}
+	return sum;
   }
 
   function padLeft(value, size) {
-    if (size < value.length) {
-      throw new Error("Incompatible size");
-    }
-    var l = size-value.length;
-    for (var i = 0; i < l; i++) {
-      value = "0" + value;
-    }
-    return value;
+	if (size < value.length) {
+	  throw new Error("Incompatible size");
+	}
+	var l = size-value.length;
+	for (var i = 0; i < l; i++) {
+	  value = "0" + value;
+	}
+	return value;
   }
 
   function createHeader( name, size, type ){
-    var ab = new ArrayBuffer(512);
-    var ia = new Uint8Array(ab);
-    var sum = 0;
-    sum += dumpString(name, ia, 0, 99);
-    sum += dumpString(size.toString(8), ia, 124, 12);
-    sum += dumpString(padLeft("644 \0", 8), ia, 100, 8)
-      // timestamp
-      var ts = new Date().getTime();
-    ts = Math.floor(ts/1000);
-    sum += dumpString(ts.toString(8), ia, 136, 12);
+	var ab = new ArrayBuffer(512);
+	var ia = new Uint8Array(ab);
+	var sum = 0;
+	sum += dumpString(name, ia, 0, 99);
+	sum += dumpString(size.toString(8), ia, 124, 12);
+	sum += dumpString(padLeft("644 \0", 8), ia, 100, 8)
+	  // timestamp
+	  var ts = new Date().getTime();
+	ts = Math.floor(ts/1000);
+	sum += dumpString(ts.toString(8), ia, 136, 12);
 
-    // extra header info
-    sum += dumpString("0", ia, 156, 1);
-    sum += dumpString("ustar ", ia, 257, 6);
-    sum += dumpString("00", ia, 263, 2);
+	// extra header info
+	sum += dumpString("0", ia, 156, 1);
+	sum += dumpString("ustar ", ia, 257, 6);
+	sum += dumpString("00", ia, 263, 2);
 
-    // assume checksum to be 8 spaces
-    sum += 8*32;
-    //checksum 6 digit octal followed by null and space
-    dumpString(padLeft(sum.toString(8)+"\0 ", 8), ia, 148, 8)
-      return ab;
+	// assume checksum to be 8 spaces
+	sum += 8*32;
+	//checksum 6 digit octal followed by null and space
+	dumpString(padLeft(sum.toString(8)+"\0 ", 8), ia, 148, 8)
+	  return ab;
   }
 
   function dataURItoBlob(byteString) {
 
-    // write the bytes of the string to an ArrayBuffer
-    var padding = 512 - (byteString.length % 512);
-    var ab = new ArrayBuffer(byteString.length + padding);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
+	// write the bytes of the string to an ArrayBuffer
+	var padding = 512 - (byteString.length % 512);
+	var ab = new ArrayBuffer(byteString.length + padding);
+	var ia = new Uint8Array(ab);
+	for (var i = 0; i < byteString.length; i++) {
+	  ia[i] = byteString.charCodeAt(i);
+	}
 
-    return ab;
+	return ab;
   }
 
 
-    function errorHandler(msg) {
+	function errorHandler(msg) {
 		return function(e) {
 			console.log(msg, e);
 		}
-    }
+	}
 }
 
 function wrap(value, min, rangeSize) {
   rangeSize-=min;
-    while (value < min) {
-      value += rangeSize;
+	while (value < min) {
+	  value += rangeSize;
   }
   return value % rangeSize;
 }

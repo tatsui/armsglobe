@@ -1,22 +1,22 @@
 var globeRadius = 1000;
 var vec3_origin = new THREE.Vector3(0,0,0);
 
-function makeConnectionLineGeometry( exporter, importer, value, type ){
-	if( exporter.countryName == undefined || importer.countryName == undefined )
+function makeConnectionLineGeometry( uploader, downloader, value, type ){
+	if( uploader.countryName == undefined || downloader.countryName == undefined )
 		return undefined;
 
-	// console.log("making connection between " + exporter.countryName + " and " + importer.countryName + " with code " + type );
+	// console.log("making connection between " + uploader.countryName + " and " + downloader.countryName + " with code " + type );
 
-	var distanceBetweenCountryCenter = exporter.center.clone().subSelf(importer.center).length();		
+	var distanceBetweenCountryCenter = uploader.center.clone().subSelf(downloader.center).length();		
 
 	//	how high we want to shoot the curve upwards
 	var anchorHeight = globeRadius + distanceBetweenCountryCenter * 0.7;
 
 	//	start of the line
-	var start = exporter.center;
+	var start = uploader.center;
 
 	//	end of the line
-	var end = importer.center;
+	var end = downloader.center;
 	
 	//	midpoint for the curve
 	var mid = start.clone().lerpSelf(end,0.5);		
@@ -28,7 +28,7 @@ function makeConnectionLineGeometry( exporter, importer, value, type ){
 	var normal = (new THREE.Vector3()).sub(start,end);
 	normal.normalize();
 
-	/*				     
+	/*					 
 				The curve looks like this:
 				
 				midStartAnchor---- mid ----- midEndAnchor

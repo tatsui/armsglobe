@@ -1311,7 +1311,7 @@ if(!Array.prototype.indexOf){
 						break;
 					case 'A':
 						while (!pp.isCommandOrEnd()) {
-						    var curr = pp.current;
+							var curr = pp.current;
 							var rx = pp.getScalar();
 							var ry = pp.getScalar();
 							var xAxisRotation = pp.getScalar() * (Math.PI / 180.0);
@@ -2323,12 +2323,12 @@ if(!Array.prototype.indexOf){
 			this.base(node);	
 			
 			function make_fgauss(sigma) {
-				sigma = Math.max(sigma, 0.01);			      
-				var len = Math.ceil(sigma * 4.0) + 1;                     
-				mask = [];                               
-				for (var i = 0; i < len; i++) {                             
-					mask[i] = Math.exp(-0.5 * (i / sigma) * (i / sigma));                                           
-				}                                                           
+				sigma = Math.max(sigma, 0.01);				  
+				var len = Math.ceil(sigma * 4.0) + 1;					 
+				mask = [];							   
+				for (var i = 0; i < len; i++) {							 
+					mask[i] = Math.exp(-0.5 * (i / sigma) * (i / sigma));										   
+				}														   
 				return mask; 
 			}
 			
@@ -2352,7 +2352,7 @@ if(!Array.prototype.indexOf){
 					  var sum = mask[0] * (a==0?255:imGet(src, x, y, width, height, rgba)) * (a==0||rgba==3?1:a);
 					  for (var i = 1; i < mask.length; i++) {
 						var a1 = imGet(src, Math.max(x-i,0), y, width, height, 3)/255;
-					    var a2 = imGet(src, Math.min(x+i, width-1), y, width, height, 3)/255;
+						var a2 = imGet(src, Math.min(x+i, width-1), y, width, height, 3)/255;
 						sum += mask[i] * 
 						  ((a1==0?255:imGet(src, Math.max(x-i,0), y, width, height, rgba)) * (a1==0||rgba==3?1:a1) + 
 						   (a2==0?255:imGet(src, Math.min(x+i, width-1), y, width, height, rgba)) * (a2==0||rgba==3?1:a2));
